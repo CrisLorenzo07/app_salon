@@ -1,5 +1,6 @@
 import path from 'path'
 import fs from 'fs'
+import { pipeline } from 'node:stream/promises'
 import { glob } from 'glob'
 import { src, dest, watch, series } from 'gulp'
 import * as dartSass from 'sass'
@@ -16,11 +17,13 @@ const paths = {
 }
 
 export function css() {
-    return src(paths.scss, { sourcemaps: true })
-        .pipe(sass({
+    return pipeline(
+        src('src/scss/app.scss', { sourcemaps: true }),
+        sass({
             style: 'compressed'
-        }))
-        .pipe(dest('./public/build/css', { sourcemaps: '.' }));
+        }),
+        dest('./public/build/css', { sourcemaps: '.' })
+    );
 }
 
 export function js() {
