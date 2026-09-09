@@ -5,6 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "gulp": "gulp",
+    "build": "gulp build",
     "dev": "gulp",
     "dev:php": "php -S 127.0.0.1:8000 -t public",
     "dev:sync": "browser-sync start --proxy \"http://127.0.0.1:8000\" --browser \"/snap/bin/chromium\" --files \"views/**/*.php, controllers/**/*.php, models/**/*.php, includes/**/*.php, public/**/*.php, Router.php, public/build/css/**/*.css, public/build/js/**/*.js\""

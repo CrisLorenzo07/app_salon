@@ -11,39 +11,41 @@ const sass = gulpSass(dartSass)
 
 const paths = {
     scss: 'src/scss/**/*.scss',
-    js: 'src/js/**/*.js'
+    js: 'src/js/**/*.js',
+    img: 'src/img/**/*.{png,jpg,jpeg,svg}'
 }
 
-export function css(done) {
-    src(paths.scss, { sourcemaps: true })
+export function css() {
+    return src(paths.scss, { sourcemaps: true })
         .pipe(sass({
-            outputStyle: 'compressed'
-        }).on('error', sass.logError))
+            style: 'compressed'
+        }))
         .pipe(dest('./public/build/css', { sourcemaps: '.' }));
-    done()
 }
 
-export function js(done) {
-    src(paths.js)
+export function js() {
+    return src(paths.js)
         .pipe(terser())
         .pipe(dest('./public/build/js'))
-    done()
 }
 
-export async function imagenes(done) {
+export async function imagenes() {
     const srcDir = './src/img';
     const buildDir = './public/build/img';
-    const images = await glob('./src/img/**/*')
+    const images = await glob(paths.img, { nodir: true, nocase: true })
 
-    images.forEach(file => {
+    for (const file of images) {
         const relativePath = path.relative(srcDir, path.dirname(file));
         const outputSubDir = path.join(buildDir, relativePath);
-        procesarImagenes(file, outputSubDir);
-    });
-    done();
+        try {
+            await procesarImagenes(file, outputSubDir);
+        } catch (error) {
+            throw new Error(`No se pudo procesar la imagen "${file}": ${error.message}`, { cause: error });
+        }
+    }
 }
 
-function procesarImagenes(file, outputSubDir) {
+async function procesarImagenes(file, outputSubDir) {
     if (!fs.existsSync(outputSubDir)) {
         fs.mkdirSync(outputSubDir, { recursive: true })
     }
@@ -59,16 +61,25 @@ function procesarImagenes(file, outputSubDir) {
         const outputFileAvif = path.join(outputSubDir, `${baseName}.avif`);
         const options = { quality: 80 };
 
-        sharp(file).jpeg(options).toFile(outputFile);
-        sharp(file).webp(options).toFile(outputFileWebp);
-        sharp(file).avif().toFile(outputFileAvif);
+        const original = sharp(file);
+        if (extName.toLowerCase() === '.png') {
+            original.png();
+        } else {
+            original.jpeg(options);
+        }
+
+        await original.toFile(outputFile);
+        await sharp(file).webp(options).toFile(outputFileWebp);
+        await sharp(file).avif().toFile(outputFileAvif);
     }
 }
 
-export function dev() {
+export function dev(done) {
     watch(paths.scss, css);
     watch(paths.js, js);
-    watch('src/img/**/*.{png,jpg}', imagenes)
+    watch(paths.img, { nocase: true }, imagenes)
+    done()
 }
 
-export default series(js, css, imagenes, dev)
+export const build = series(js, css, imagenes)
+export default series(build, dev)

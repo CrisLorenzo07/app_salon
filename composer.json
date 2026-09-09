@@ -4,13 +4,17 @@
   "type": "project",
   "autoload": {
     "psr-4": {
+      "Cristian\\AppSalon\\": "src/",
       "MVC\\": "./",
       "Controllers\\": "./controllers",
-      "Model\\": "./models",
-      "Classes\\": "./classes"
+      "Model\\": "./models"
     }
   },
-  "require": {
-    "phpmailer/phpmailer": "^6.5"
-  }
+  "authors": [
+    {
+      "name": "CrisLorenzo07",
+      "email": "sscristian77@gmail.com"
+    }
+  ],
+  "require": {}
 }
