@@ -14,26 +14,26 @@ const paths = {
     js: 'src/js/**/*.js'
 }
 
-export function css( done ) {
-    src(paths.scss, {sourcemaps: true})
-        .pipe( sass({
+export function css(done) {
+    src(paths.scss, { sourcemaps: true })
+        .pipe(sass({
             outputStyle: 'compressed'
-        }).on('error', sass.logError) )
-        .pipe( dest('./public/build/css', {sourcemaps: '.'}) );
+        }).on('error', sass.logError))
+        .pipe(dest('./public/build/css', { sourcemaps: '.' }));
     done()
 }
 
-export function js( done ) {
+export function js(done) {
     src(paths.js)
-      .pipe(terser())
-      .pipe(dest('./public/build/js'))
+        .pipe(terser())
+        .pipe(dest('./public/build/js'))
     done()
 }
 
 export async function imagenes(done) {
     const srcDir = './src/img';
     const buildDir = './public/build/img';
-    const images =  await glob('./src/img/**/*')
+    const images = await glob('./src/img/**/*')
 
     images.forEach(file => {
         const relativePath = path.relative(srcDir, path.dirname(file));
@@ -51,11 +51,9 @@ function procesarImagenes(file, outputSubDir) {
     const extName = path.extname(file)
 
     if (extName.toLowerCase() === '.svg') {
-        // If it's an SVG file, move it to the output directory
         const outputFile = path.join(outputSubDir, `${baseName}${extName}`);
-    fs.copyFileSync(file, outputFile);
+        fs.copyFileSync(file, outputFile);
     } else {
-        // For other image formats, process them with sharp
         const outputFile = path.join(outputSubDir, `${baseName}${extName}`);
         const outputFileWebp = path.join(outputSubDir, `${baseName}.webp`);
         const outputFileAvif = path.join(outputSubDir, `${baseName}.avif`);
@@ -68,9 +66,9 @@ function procesarImagenes(file, outputSubDir) {
 }
 
 export function dev() {
-    watch( paths.scss, css );
-    watch( paths.js, js );
+    watch(paths.scss, css);
+    watch(paths.js, js);
     watch('src/img/**/*.{png,jpg}', imagenes)
 }
 
-export default series( js, css, imagenes, dev )
+export default series(js, css, imagenes, dev)
