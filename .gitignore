@@ -1,0 +1,28 @@
+# Dependencias de Node.js y Composer
+/node_modules/
+/vendor/
+/.pnpm-store/
+
+# Recursos generados por Gulp
+/public/build/
+
+# Variables de entorno locales (conservar las plantillas)
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# Logs de herramientas
+npm-debug.log*
+pnpm-debug.log*
+
+# Archivos temporales y del sistema operativo
+.DS_Store
+Thumbs.db
+Desktop.ini
+*:Zone.Identifier
+*.swp
+*.swo
+*~
+
+# Mantener pnpm-lock.yaml y composer.lock versionados
