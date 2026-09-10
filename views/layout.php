@@ -13,7 +13,7 @@
     <div class="contenedor-app">
         <div class="imagen"></div>
         <div class="app">
-            <?php echo $contenido; ?>
+            <?php echo $contenido ?? ''; ?>
         </div>
     </div>
 

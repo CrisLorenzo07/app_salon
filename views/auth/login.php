@@ -15,7 +15,6 @@
 </form>
 
 <div class="acciones">
-    <a href="/crear-cuenta">¿Aun no tienes una cuenta?, crear una</a>
+    <a href="/crear-cuenta">¿Aún no tienes una cuenta?, crear una</a>
     <a href="/olvide">¿Olvidaste tu contraseña?</a>
-
 </div>
