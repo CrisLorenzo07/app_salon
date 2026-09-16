@@ -54,7 +54,7 @@ class Usuario extends ActiveRecord
             !preg_match('/[a-z]/', $this->password) ||
             !preg_match('/[0-9]/', $this->password)
         ) {
-            self::$alertas['error'][] = 'La contraseña debe tener al menos 8 caracteres e incluir una mayúscula, una minúscula y un número';
+            self::$alertas['error'][] = 'La contraseña debe tener al menos 8 caracteres e incluir mayúsculas, minúsculas y números';
         }
 
         return self::$alertas;
@@ -94,15 +94,45 @@ class Usuario extends ActiveRecord
         return self::$alertas;
     }
 
-    public function comprobarPasswordAndVerificado($password)
+    public function comprobarPasswordAndVerificado(string $password): bool
     {
         $resultado = password_verify($password, $this->password);
         if (!$resultado || !$this->confirmed) {
-            self::$alertas['error'][] = 'El password es incorrecto o tu cuenta no ha sido verificada';
-        } else {
-
+            self::$alertas['error'][] =
+                'El password es incorrecto o tu cuenta no ha sido verificada';
+            return false;
         }
+        return true;
     }
 
+    public function validarEmail()
+    {
+        if (!$this->email) {
+            self::$alertas['error'][] = 'El email es obligatorio';
+        }
+        return self::$alertas;
+    }
 
+    public function validarPassword(string $confirmacion): array
+    {
+        if ($this->password === '') {
+            self::$alertas['error'][] = 'La contraseña es obligatoria';
+        } elseif (
+            strlen($this->password) < 8 ||
+            !preg_match('/[A-Z]/', $this->password) ||
+            !preg_match('/[a-z]/', $this->password) ||
+            !preg_match('/[0-9]/', $this->password)
+        ) {
+            self::$alertas['error'][] =
+                'La contraseña debe tener al menos 8 caracteres e incluir mayúsculas, minúsculas y números';
+        }
+
+        if ($confirmacion === '') {
+            self::$alertas['error'][] = 'Debes repetir la contraseña';
+        } elseif ($this->password !== $confirmacion) {
+            self::$alertas['error'][] = 'Las contraseñas no coinciden';
+        }
+
+        return self::$alertas;
+    }
 }
