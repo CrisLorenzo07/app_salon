@@ -45,6 +45,9 @@ class LoginController
                     $alertas = Usuario::getAlertas();
                 } else {
                     $usuario->hashPassword();
+
+                    $usuario->crearToken();
+                    debuguear($usuario);
                 }
             }
         }
