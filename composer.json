@@ -7,7 +7,8 @@
       "Cristian\\AppSalon\\": "src/",
       "MVC\\": "./",
       "Controllers\\": "./controllers",
-      "Model\\": "./models"
+      "Model\\": "./models",
+      "Classes\\": "./classes"
     }
   },
   "authors": [
@@ -16,5 +17,7 @@
       "email": "sscristian77@gmail.com"
     }
   ],
-  "require": {}
+  "require": {
+    "phpmailer/phpmailer": "^7.1"
+  }
 }

@@ -13,8 +13,8 @@ class Usuario extends ActiveRecord
     public string $phone;
     public string $email;
     public string $password;
-    public bool $admin;
-    public bool $confirmed;
+    public int $admin;
+    public int $confirmed;
     public string $token;
 
     public function __construct($args = [])
@@ -82,4 +82,5 @@ class Usuario extends ActiveRecord
     {
         $this->token = uniqid();
     }
+
 }

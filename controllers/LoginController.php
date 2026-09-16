@@ -2,6 +2,7 @@
 
 namespace Controllers;
 
+use Classes\Email;
 use Model\Usuario;
 use MVC\Router;
 
@@ -9,8 +10,6 @@ class LoginController
 {
     public static function login(Router $router)
     {
-
-
         $router->render('auth/login');
     }
 
@@ -47,7 +46,15 @@ class LoginController
                     $usuario->hashPassword();
 
                     $usuario->crearToken();
-                    debuguear($usuario);
+
+                    $email = new Email($usuario->name, $usuario->email, $usuario->token);
+
+                    $email->enviarConfirmacion();
+
+                    $resultado = $usuario->guardar();
+                    if ($resultado) {
+                        header('Location: /mensaje');
+                    }
                 }
             }
         }
@@ -56,6 +63,47 @@ class LoginController
             'usuario' => $usuario,
             'alertas' => $alertas
         ]);
+    }
 
+    public static function mensaje(Router $router)
+    {
+        $router->render('auth/mensaje');
+    }
+
+    public static function confirmarCuenta(Router $router)
+    {
+        $alertas = [];
+
+        $token = $_GET['token'] ?? '';
+        $usuario = null;
+
+        if (is_string($token) && trim($token) !== '') {
+            $usuario = Usuario::where('token', $token);
+        }
+
+        if (empty($usuario)) {
+            Usuario::setAlerta('error', 'Token no válido');
+        } else {
+            $usuario->confirmed = 1;
+            $usuario->token = '';
+
+            try {
+                $guardado = $usuario->guardar();
+            } catch (\mysqli_sql_exception $e) {
+                error_log('Error al confirmar cuenta: ' . $e->getMessage());
+                $guardado = false;
+            }
+
+            if ($guardado) {
+                Usuario::setAlerta('exito', 'Cuenta verificada correctamente');
+            } else {
+                Usuario::setAlerta('error', 'No se pudo verificar la cuenta');
+            }
+        }
+
+        $alertas = Usuario::getAlertas();
+        $router->render('auth/confirmar-cuenta', [
+            'alertas' => $alertas
+        ]);
     }
 }

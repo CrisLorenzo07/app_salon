@@ -45,7 +45,7 @@ class ActiveRecord
         return $array;
     }
 
-    protected static function crearObjeto($registro)
+    protected static function crearObjeto($registro): static
     {
         $objeto = new static;
 
@@ -118,6 +118,26 @@ class ActiveRecord
         $query = "SELECT * FROM " . static::$tabla . " LIMIT {$limite}";
         $resultado = self::consultarSQL($query);
         return array_shift($resultado);
+    }
+
+    public static function where($columna, $valor): ?static
+    {
+        if (!in_array($columna, static::$columnasDB, true)) {
+            throw new \InvalidArgumentException('Columna no válida');
+        }
+
+        $query = "SELECT * FROM `" . static::$tabla . "` WHERE `$columna` = ? LIMIT 1";
+        $stmt = self::$db->prepare($query);
+
+        try {
+            $stmt->bind_param('s', $valor);
+            $stmt->execute();
+            $registro = $stmt->get_result()->fetch_assoc();
+        } finally {
+            $stmt->close();
+        }
+
+        return $registro ? static::crearObjeto($registro) : null;
     }
 
     public function crear()
