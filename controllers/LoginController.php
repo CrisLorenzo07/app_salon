@@ -44,13 +44,9 @@ class LoginController
                     $alertas = Usuario::getAlertas();
                 } else {
                     $usuario->hashPassword();
-
                     $usuario->crearToken();
-
                     $email = new Email($usuario->name, $usuario->email, $usuario->token);
-
                     $email->enviarConfirmacion();
-
                     $resultado = $usuario->guardar();
                     if ($resultado) {
                         header('Location: /mensaje');
@@ -73,7 +69,6 @@ class LoginController
     public static function confirmarCuenta(Router $router)
     {
         $alertas = [];
-
         $token = $_GET['token'] ?? '';
         $usuario = null;
 

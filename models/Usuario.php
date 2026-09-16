@@ -63,7 +63,6 @@ class Usuario extends ActiveRecord
     public function existeUsuario()
     {
         $query = "SELECT * FROM " . self::$tabla . " WHERE email = '" . $this->email . "' LIMIT 1";
-
         $resultado = self::$db->query($query);
 
         if ($resultado->num_rows) {
@@ -82,5 +81,4 @@ class Usuario extends ActiveRecord
     {
         $this->token = uniqid();
     }
-
 }

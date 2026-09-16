@@ -11,7 +11,6 @@ $router->get('/', [LoginController::class, 'login']);
 $router->post('/', [LoginController::class, 'login']);
 $router->get('/logout', [LoginController::class, 'logout']);
 
-
 $router->get('/olvide', [LoginController::class, 'olvide']);
 $router->post('/olvide', [LoginController::class, 'olvide']);
 

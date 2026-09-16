@@ -1,12 +1,10 @@
 <?php
-
 namespace Classes;
 
 use PHPMailer\PHPMailer\PHPMailer;
 
 class Email
 {
-
 
     public string $name;
     public string $email;
@@ -29,10 +27,8 @@ class Email
         $mail->SMTPAuth = false;
         $mail->SMTPAutoTLS = false;
         $mail->CharSet = 'UTF-8';
-
         $mail->setFrom('cuentas@appsalon.com', 'App Salón');
         $mail->addAddress($this->email, $this->name);
-
         $mail->isHTML(true);
         $mail->Subject = 'Confirma tu cuenta';
 
@@ -51,7 +47,6 @@ class Email
         $contenido .= '</body></html>';
 
         $mail->Body = $contenido;
-
         $mail->AltBody = "Confirma tu cuenta: {$url}";
 
         return $mail->send();
