@@ -38,6 +38,15 @@ class LoginController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $usuario->sincronizar($_POST);
             $alertas = $usuario->validarNuevaCuenta();
+
+            if (empty($alertas)) {
+                $resultado = $usuario->existeUsuario();
+                if ($resultado->num_rows) {
+                    $alertas = Usuario::getAlertas();
+                } else {
+                    $usuario->hashPassword();
+                }
+            }
         }
 
         $router->render('auth/crear-cuenta', [
