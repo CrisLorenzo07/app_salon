@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/../includes/app.php';
 
+use Controllers\CitaController;
 use Controllers\LoginController;
 use MVC\Router;
 
@@ -21,5 +22,8 @@ $router->get('/mensaje', [LoginController::class, 'mensaje']);
 
 $router->get('/recuperar', [LoginController::class, 'recuperar']);
 $router->post('/recuperar', [LoginController::class, 'recuperar']);
+
+$router->get('/cita', [CitaController::class, 'index']);
+
 
 $router->comprobarRutas();
