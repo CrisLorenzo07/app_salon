@@ -1,80 +1,133 @@
-let paso = 1;
+let currentStep = 1;
 
+const appointment = {
+  name: "",
+  date: "",
+  time: "",
+  services: [],
+};
 
 document.addEventListener("DOMContentLoaded", function () {
-  iniciarApp();
+  initApp();
 });
 
-function iniciarApp() {
-  mostrarSeccion();
-  tabs();
-  botonesPaginador();
-  paginaSiguiente();
-  paginaAnterior();
+function initApp() {
+  showSection();
+  initTabs();
+  updatePaginationButtons();
+  initNextButton();
+  initPreviousButton();
+
+  fetchServices();
 }
 
-function mostrarSeccion() {
-  const seccionAnterior = document.querySelector(".mostrar");
-  if (seccionAnterior) {
-    seccionAnterior.classList.remove("mostrar");
+function showSection() {
+  const previousSection = document.querySelector(".is-visible");
+  if (previousSection) {
+    previousSection.classList.remove("is-visible");
   }
 
-  const seccion = document.querySelector(`#paso-${paso}`);
-  seccion.classList.add("mostrar");
+  const section = document.querySelector(`#step-${currentStep}`);
+  section.classList.add("is-visible");
 
-  const tabAnterior = document.querySelector(".tabs button.tab-actual");
-  if (tabAnterior) {
-    tabAnterior.classList.remove("tab-actual");
+  const previousTab = document.querySelector(".tabs button.is-active");
+  if (previousTab) {
+    previousTab.classList.remove("is-active");
   }
 
-  const tab = document.querySelector(`.tabs button[data-paso="${paso}"]`);
-  tab.classList.add("tab-actual");
+  const tab = document.querySelector(
+    `.tabs button[data-step="${currentStep}"]`,
+  );
+  tab.classList.add("is-active");
 }
 
-function tabs() {
-  const botones = document.querySelectorAll(".tabs button");
+function initTabs() {
+  const buttons = document.querySelectorAll(".tabs button");
 
-  botones.forEach((boton) => {
-    boton.addEventListener("click", function (e) {
-      paso = parseInt(e.target.dataset.paso);
-      mostrarSeccion();
-      botonesPaginador();
+  buttons.forEach((button) => {
+    button.addEventListener("click", function (e) {
+      currentStep = parseInt(e.target.dataset.step);
+      showSection();
+      updatePaginationButtons();
     });
   });
 }
 
-function botonesPaginador() {
-  const paginaAnterior = document.querySelector("#anterior");
-  const paginaSiguiente = document.querySelector("#siguiente");
+function updatePaginationButtons() {
+  const previousButton = document.querySelector("#previous");
+  const nextButton = document.querySelector("#next");
 
-  if (paso === 1) {
-    paginaAnterior.classList.add("ocultar");
-    paginaSiguiente.classList.remove("ocultar");
-  } else if (paso === 3) {
-    paginaAnterior.classList.remove("ocultar");
-    paginaSiguiente.classList.add("ocultar");
+  if (currentStep === 1) {
+    previousButton.classList.add("is-hidden");
+    nextButton.classList.remove("is-hidden");
+  } else if (currentStep === 3) {
+    previousButton.classList.remove("is-hidden");
+    nextButton.classList.add("is-hidden");
   } else {
-    paginaAnterior.classList.remove("ocultar");
-    paginaSiguiente.classList.remove("ocultar");
+    previousButton.classList.remove("is-hidden");
+    nextButton.classList.remove("is-hidden");
   }
 }
 
-function paginaAnterior() {
-  const paginaAnterior = document.querySelector("#anterior");
-  paginaAnterior.addEventListener("click", function () {
-    if (paso <= 1) return;
-    paso--;
-    mostrarSeccion();
-    botonesPaginador();
+function initPreviousButton() {
+  const previousButton = document.querySelector("#previous");
+  previousButton.addEventListener("click", function () {
+    if (currentStep <= 1) return;
+    currentStep--;
+    showSection();
+    updatePaginationButtons();
   });
 }
 
-function paginaSiguiente() {
-  const paginaSiguiente = document.querySelector("#siguiente");
-  paginaSiguiente.addEventListener("click", function () {
-    if (paso >= 3) return;
-    paso++;
-    mostrarSeccion();
-    botonesPaginador();
+function initNextButton() {
+  const nextButton = document.querySelector("#next");
+  nextButton.addEventListener("click", function () {
+    if (currentStep >= 3) return;
+    currentStep++;
+    showSection();
+    updatePaginationButtons();
   });
+}
+
+async function fetchServices() {
+  try {
+    const url = "/api/services";
+    const response = await fetch(url);
+    const services = await response.json();
+    renderServices(services);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function renderServices(services) {
+  services.forEach((service) => {
+    const { id, name, price } = service;
+
+    const serviceName = document.createElement("P");
+    serviceName.classList.add("service-name");
+    serviceName.textContent = name;
+
+    const servicePrice = document.createElement("P");
+    servicePrice.classList.add("service-price");
+    servicePrice.textContent = `$${price.toFixed(2)}`;
+
+    const serviceElement = document.createElement("DIV");
+    serviceElement.classList.add("service");
+    serviceElement.dataset.serviceId = id;
+    serviceElement.onclick = function () {
+      selectService(service);
+    };
+
+    serviceElement.appendChild(serviceName);
+    serviceElement.appendChild(servicePrice);
+
+    document.querySelector("#services").appendChild(serviceElement);
+  });
+}
+
+function selectService(service) {
+  appointment.services = [...appointment.services, service];
+
+  console.log(appointment);
 }

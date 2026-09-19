@@ -17,7 +17,7 @@ class Router
         $this->postRoutes[$url] = $fn;
     }
 
-    public function comprobarRutas()
+    public function checkRoutes()
     {
         session_start();
 
@@ -37,16 +37,16 @@ class Router
         }
     }
 
-    public function render($view, $datos = [])
+    public function render($view, $data = [])
     {
-        foreach ($datos as $key => $value) {
+        foreach ($data as $key => $value) {
             $$key = $value;
         }
 
         ob_start();
 
         include_once __DIR__ . "/views/$view.php";
-        $contenido = ob_get_clean();
+        $content = ob_get_clean();
         include_once __DIR__ . '/views/layout.php';
     }
 }

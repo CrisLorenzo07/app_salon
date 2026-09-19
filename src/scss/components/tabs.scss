@@ -8,25 +8,25 @@
     }
 
     button {
-        background-color: v.$azul;
+        background-color: v.$color-blue;
         border: none;
-        color: v.$blanco;
+        color: v.$color-white;
         padding: 1rem;
         display: block;
         width: 100%;
         margin-bottom: 1rem;
         text-transform: uppercase;
-        font-weight: v.$bold;
+        font-weight: v.$font-weight-bold;
         transition: background-color 300ms ease, color 300ms ease;
 
         &:hover {
             cursor: pointer;
-            background-color: darken($color: v.$azul, $amount: 10%);
+            background-color: darken($color: v.$color-blue, $amount: 10%);
         }
 
-        &.tab-actual {
-            background-color: v.$blanco;
-            color: v.$azul;
+        &.is-active {
+            background-color: v.$color-white;
+            color: v.$color-blue;
         }
     }
 }

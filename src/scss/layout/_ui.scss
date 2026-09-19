@@ -1,14 +1,14 @@
 @use '../base/variables' as v;
 @use '../base/mixins' as m;
 
-.contenedor-app {
+.app-container {
     @include m.tablet {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         min-height: 100vh;
     }
 
-    .imagen {
+    .image {
         height: 20rem;
         background-image: url(../img/1.avif);
         background-size: cover;

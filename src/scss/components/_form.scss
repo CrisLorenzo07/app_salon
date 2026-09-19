@@ -1,14 +1,14 @@
 @use '../base/variables' as v;
 @use '../base/mixins' as m;
 
-.formulario {
+.form {
     width: 100%;
     margin-top: 5rem;
 
 
 }
 
-.campo {
+.field {
     display: flex;
     margin-bottom: 2rem;
     align-items: center;
@@ -20,7 +20,7 @@
     input {
         flex: 1;
         border: none;
-        padding: calc(v.$separacion / 4);
+        padding: calc(v.$spacing / 4);
         border-radius: 1rem;
         -webkit-border-radius: 1rem;
         -moz-border-radius: 1rem;
@@ -28,8 +28,8 @@
         -o-border-radius: 1rem;
 
         &:disabled {
-            background-color: lighten(v.$negro, 30);
-            color: v.$blanco;
+            background-color: lighten(v.$color-black, 30);
+            color: v.$color-white;
             cursor: not-allowed;
         }
 

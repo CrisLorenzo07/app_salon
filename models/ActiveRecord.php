@@ -5,81 +5,81 @@ namespace Model;
 class ActiveRecord
 {
     protected static $db;
-    protected static $tabla = '';
-    protected static $columnasDB = [];
+    protected static $table = '';
+    protected static $columns = [];
 
-    protected static $alertas = [];
+    protected static $alerts = [];
 
     public static function setDB($database)
     {
         self::$db = $database;
     }
 
-    public static function setAlerta($tipo, $mensaje)
+    public static function setAlert($type, $message)
     {
-        static::$alertas[$tipo][] = $mensaje;
+        static::$alerts[$type][] = $message;
     }
 
-    public static function getAlertas()
+    public static function getAlerts()
     {
-        return static::$alertas;
+        return static::$alerts;
     }
 
-    public function validar()
+    public function validate()
     {
-        static::$alertas = [];
-        return static::$alertas;
+        static::$alerts = [];
+        return static::$alerts;
     }
 
-    public static function consultarSQL($query)
+    public static function querySQL($query)
     {
-        $resultado = self::$db->query($query);
+        $result = self::$db->query($query);
 
         $array = [];
-        while ($registro = $resultado->fetch_assoc()) {
-            $array[] = static::crearObjeto($registro);
+        while ($record = $result->fetch_assoc()) {
+            $array[] = static::createObject($record);
         }
 
-        $resultado->free();
+        $result->free();
 
         return $array;
     }
 
-    protected static function crearObjeto($registro): static
+    protected static function createObject($record): static
     {
-        $objeto = new static;
+        $object = new static;
 
-        foreach ($registro as $key => $value) {
-            if (property_exists($objeto, $key)) {
-                $objeto->$key = $value;
+        foreach ($record as $key => $value) {
+            if (property_exists($object, $key)) {
+                $object->$key = $value;
             }
         }
 
-        return $objeto;
+        return $object;
     }
 
-    public function atributos()
+    public function attributes()
     {
-        $atributos = [];
-        foreach (static::$columnasDB as $columna) {
-            if ($columna === 'id')
+        $attributes = [];
+        foreach (static::$columns as $column) {
+            if ($column === 'id')
                 continue;
-            $atributos[$columna] = $this->$columna;
+            $attributes[$column] = $this->$column;
         }
-        return $atributos;
+        return $attributes;
     }
 
-    public function sanitizarAtributos()
+    public function sanitizeAttributes()
     {
-        $atributos = $this->atributos();
-        $sanitizado = [];
-        foreach ($atributos as $key => $value) {
-            $sanitizado[$key] = self::$db->escape_string($value);
+        $attributes = $this->attributes();
+        $sanitized = [];
+        foreach ($attributes as $key => $value) {
+            $sanitized[$key] = self::$db->escape_string($value);
         }
-        return $sanitizado;
+        return $sanitized;
     }
 
-    public function sincronizar($args = [])
+    public function sync($args = [])
     {
         foreach ($args as $key => $value) {
             if (property_exists($this, $key) && !is_null($value)) {
@@ -88,97 +88,97 @@ class ActiveRecord
         }
     }
 
-    public function guardar()
+    public function save()
     {
-        $resultado = '';
+        $result = '';
         if (!is_null($this->id)) {
-            $resultado = $this->actualizar();
+            $result = $this->update();
         } else {
-            $resultado = $this->crear();
+            $result = $this->create();
         }
-        return $resultado;
+        return $result;
     }
 
     public static function all()
     {
-        $query = "SELECT * FROM " . static::$tabla;
-        $resultado = self::consultarSQL($query);
-        return $resultado;
+        $query = "SELECT * FROM " . static::$table;
+        $result = self::querySQL($query);
+        return $result;
     }
 
     public static function find($id)
     {
-        $query = "SELECT * FROM " . static::$tabla . " WHERE id = {$id}";
-        $resultado = self::consultarSQL($query);
-        return array_shift($resultado);
+        $query = "SELECT * FROM " . static::$table . " WHERE id = {$id}";
+        $result = self::querySQL($query);
+        return array_shift($result);
     }
 
-    public static function get($limite)
+    public static function get($limit)
     {
-        $query = "SELECT * FROM " . static::$tabla . " LIMIT {$limite}";
-        $resultado = self::consultarSQL($query);
-        return array_shift($resultado);
+        $query = "SELECT * FROM " . static::$table . " LIMIT {$limit}";
+        $result = self::querySQL($query);
+        return array_shift($result);
     }
 
-    public static function where($columna, $valor): ?static
+    public static function where($column, $value): ?static
     {
-        if (!in_array($columna, static::$columnasDB, true)) {
+        if (!in_array($column, static::$columns, true)) {
             throw new \InvalidArgumentException('Columna no válida');
         }
 
-        $query = "SELECT * FROM `" . static::$tabla . "` WHERE `$columna` = ? LIMIT 1";
+        $query = "SELECT * FROM `" . static::$table . "` WHERE `$column` = ? LIMIT 1";
         $stmt = self::$db->prepare($query);
 
         try {
-            $stmt->bind_param('s', $valor);
+            $stmt->bind_param('s', $value);
             $stmt->execute();
-            $registro = $stmt->get_result()->fetch_assoc();
+            $record = $stmt->get_result()->fetch_assoc();
         } finally {
             $stmt->close();
         }
 
-        return $registro ? static::crearObjeto($registro) : null;
+        return $record ? static::createObject($record) : null;
     }
 
-    public function crear()
+    public function create()
     {
-        $atributos = $this->sanitizarAtributos();
+        $attributes = $this->sanitizeAttributes();
 
-        $query = " INSERT INTO " . static::$tabla . " ( ";
-        $query .= join(', ', array_keys($atributos));
+        $query = " INSERT INTO " . static::$table . " ( ";
+        $query .= join(', ', array_keys($attributes));
         $query .= " ) VALUES ('";
-        $query .= join("', '", array_values($atributos));
+        $query .= join("', '", array_values($attributes));
         $query .= "') ";
 
-        $resultado = self::$db->query($query);
+        $result = self::$db->query($query);
         return [
-            'resultado' => $resultado,
+            'result' => $result,
             'id' => self::$db->insert_id
         ];
     }
 
-    public function actualizar()
+    public function update()
     {
-        $atributos = $this->sanitizarAtributos();
+        $attributes = $this->sanitizeAttributes();
 
-        $valores = [];
-        foreach ($atributos as $key => $value) {
-            $valores[] = "{$key}='{$value}'";
+        $values = [];
+        foreach ($attributes as $key => $value) {
+            $values[] = "{$key}='{$value}'";
         }
 
-        $query = "UPDATE " . static::$tabla . " SET ";
-        $query .= join(', ', $valores);
+        $query = "UPDATE " . static::$table . " SET ";
+        $query .= join(', ', $values);
         $query .= " WHERE id = '" . self::$db->escape_string($this->id) . "' ";
         $query .= " LIMIT 1 ";
 
-        $resultado = self::$db->query($query);
-        return $resultado;
+        $result = self::$db->query($query);
+        return $result;
     }
 
-    public function eliminar()
+    public function delete()
     {
-        $query = "DELETE FROM " . static::$tabla . " WHERE id = " . self::$db->escape_string($this->id) . " LIMIT 1";
-        $resultado = self::$db->query($query);
-        return $resultado;
+        $query = "DELETE FROM " . static::$table . " WHERE id = " . self::$db->escape_string($this->id) . " LIMIT 1";
+        $result = self::$db->query($query);
+        return $result;
     }
 }

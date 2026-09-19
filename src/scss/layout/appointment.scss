@@ -2,7 +2,7 @@
 @use '../base/mixins' as m;
 
 
-.seccion {
+.section {
     padding: 5rem 0;
     display: none;
 
@@ -11,10 +11,10 @@
     }
 }
 
-.mostrar {
+.is-visible {
     display: block;
 }
 
-.ocultar {
+.is-hidden {
     display: block;
 }

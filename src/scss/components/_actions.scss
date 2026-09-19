@@ -1,9 +1,9 @@
 @use '../base/variables' as v;
 @use '../base/mixins' as m;
 
-.acciones {
+.actions {
 
-    margin-top: v.$separacion;
+    margin-top: v.$spacing;
 
     @include m.tablet {
         display: flex;
@@ -11,9 +11,9 @@
     }
 
     a {
-        color: v.$blanco;
+        color: v.$color-white;
         display: block;
-        margin-bottom: calc(v.$separacion / 2);
+        margin-bottom: calc(v.$spacing / 2);
         text-align: center;
     }
 }

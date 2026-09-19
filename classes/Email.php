@@ -17,7 +17,7 @@ class Email
         $this->token = $token;
     }
 
-    public function enviarConfirmacion(): bool
+    public function sendConfirmation(): bool
     {
         $mail = new PHPMailer(true);
 
@@ -32,26 +32,26 @@ class Email
         $mail->isHTML(true);
         $mail->Subject = 'Confirma tu cuenta';
 
-        $nombre = htmlspecialchars(
+        $name = htmlspecialchars(
             $this->name,
             ENT_QUOTES,
             'UTF-8'
         );
 
-        $url = 'http://localhost:8000/confirmar-cuenta?token='
+        $url = 'http://localhost:8000/confirm-account?token='
             . rawurlencode($this->token);
 
-        $contenido = '<html><body>';
-        $contenido .= '<p><strong>Hola ' . $nombre . '</strong> Has creado tu cuenta en App Salón, solo debes confirmarla presionando el siguiente enlace</p>';
-        $contenido .= '<p>Presiona aquí: <a href="' . $url . '">Confirmar Cuenta</a></p>';
-        $contenido .= '</body></html>';
-        $mail->Body = $contenido;
+        $content = '<html><body>';
+        $content .= '<p><strong>Hola ' . $name . '</strong> Has creado tu cuenta en App Salón, solo debes confirmarla presionando el siguiente enlace</p>';
+        $content .= '<p>Presiona aquí: <a href="' . $url . '">Confirmar Cuenta</a></p>';
+        $content .= '</body></html>';
+        $mail->Body = $content;
         $mail->AltBody = "Confirma tu cuenta: {$url}";
 
         return $mail->send();
     }
 
-    public function enviarInstrucciones()
+    public function sendInstructions()
     {
         $mail = new PHPMailer(true);
 
@@ -66,21 +66,21 @@ class Email
         $mail->isHTML(true);
         $mail->Subject = 'Restablecer tu contraseña';
 
-        $nombre = htmlspecialchars(
+        $name = htmlspecialchars(
             $this->name,
             ENT_QUOTES,
             'UTF-8'
         );
 
-        $url = 'http://localhost:8000/recuperar?token='
+        $url = 'http://localhost:8000/reset-password?token='
             . rawurlencode($this->token);
 
-        $contenido = '<html><body>';
-        $contenido .= '<p><strong>Hola ' . $nombre . '</strong> Has solicitado restablecer tu contraseña, presiona el siguiente enlace</p>';
-        $contenido .= '<p>Presiona aquí: <a href="' . $url . '">Restablecer Contraseña</a></p>';
-        $contenido .= '<p>Si no solicitaste restablecer tu contraseña, ignora este email</p>';
-        $contenido .= '</body></html>';
-        $mail->Body = $contenido;
+        $content = '<html><body>';
+        $content .= '<p><strong>Hola ' . $name . '</strong> Has solicitado restablecer tu contraseña, presiona el siguiente enlace</p>';
+        $content .= '<p>Presiona aquí: <a href="' . $url . '">Restablecer Contraseña</a></p>';
+        $content .= '<p>Si no solicitaste restablecer tu contraseña, ignora este email</p>';
+        $content .= '</body></html>';
+        $mail->Body = $content;
         $mail->AltBody = "Restablecer Contraseña: {$url}";
 
         return $mail->send();

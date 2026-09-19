@@ -2,10 +2,10 @@
 
 namespace Model;
 
-class Usuario extends ActiveRecord
+class User extends ActiveRecord
 {
-    protected static $tabla = 'users';
-    protected static $columnasDB = ['id', 'name', 'last_name', 'phone', 'email', 'password', 'admin', 'confirmed', 'token'];
+    protected static $table = 'users';
+    protected static $columns = ['id', 'name', 'last_name', 'phone', 'email', 'password', 'admin', 'confirmed', 'token'];
 
     public ?int $id;
     public string $name;
@@ -30,22 +30,22 @@ class Usuario extends ActiveRecord
         $this->token = $args['token'] ?? '';
     }
 
-    public function validarNuevaCuenta()
+    public function validateNewAccount()
     {
         if (!$this->name) {
-            self::$alertas['error'][] = 'El nombre es obligatorio';
+            self::$alerts['error'][] = 'El nombre es obligatorio';
         }
 
         if (!$this->last_name) {
-            self::$alertas['error'][] = 'El apellido es obligatorio';
+            self::$alerts['error'][] = 'El apellido es obligatorio';
         }
 
         if (!$this->email) {
-            self::$alertas['error'][] = 'El email es obligatorio';
+            self::$alerts['error'][] = 'El email es obligatorio';
         }
 
         if (!$this->password) {
-            self::$alertas['error'][] = 'El password es obligatorio';
+            self::$alerts['error'][] = 'El password es obligatorio';
         }
 
         if (
@@ -54,22 +54,22 @@ class Usuario extends ActiveRecord
             !preg_match('/[a-z]/', $this->password) ||
             !preg_match('/[0-9]/', $this->password)
         ) {
-            self::$alertas['error'][] = 'La contraseña debe tener al menos 8 caracteres e incluir mayúsculas, minúsculas y números';
+            self::$alerts['error'][] = 'La contraseña debe tener al menos 8 caracteres e incluir mayúsculas, minúsculas y números';
         }
 
-        return self::$alertas;
+        return self::$alerts;
     }
 
-    public function existeUsuario()
+    public function userExists()
     {
-        $query = "SELECT * FROM " . self::$tabla . " WHERE email = '" . $this->email . "' LIMIT 1";
-        $resultado = self::$db->query($query);
+        $query = "SELECT * FROM " . self::$table . " WHERE email = '" . $this->email . "' LIMIT 1";
+        $result = self::$db->query($query);
 
-        if ($resultado->num_rows) {
-            self::$alertas['error'][] = 'El Usuario ya esta registrado';
+        if ($result->num_rows) {
+            self::$alerts['error'][] = 'El Usuario ya esta registrado';
         }
 
-        return $resultado;
+        return $result;
     }
 
     public function hashPassword()
@@ -77,62 +77,62 @@ class Usuario extends ActiveRecord
         $this->password = password_hash($this->password, PASSWORD_BCRYPT);
     }
 
-    public function crearToken()
+    public function createToken()
     {
         $this->token = uniqid();
     }
 
-    public function validarLogin()
+    public function validateLogin()
     {
         if (!$this->email) {
-            self::$alertas['error'][] = 'El email es obligatorio';
+            self::$alerts['error'][] = 'El email es obligatorio';
         }
         if (!$this->password) {
-            self::$alertas['error'][] = 'El password es obligatorio';
+            self::$alerts['error'][] = 'El password es obligatorio';
         }
 
-        return self::$alertas;
+        return self::$alerts;
     }
 
-    public function comprobarPasswordAndVerificado(string $password): bool
+    public function verifyPasswordAndConfirmation(string $password): bool
     {
-        $resultado = password_verify($password, $this->password);
-        if (!$resultado || !$this->confirmed) {
-            self::$alertas['error'][] =
+        $result = password_verify($password, $this->password);
+        if (!$result || !$this->confirmed) {
+            self::$alerts['error'][] =
                 'El password es incorrecto o tu cuenta no ha sido verificada';
             return false;
         }
         return true;
     }
 
-    public function validarEmail()
+    public function validateEmail()
     {
         if (!$this->email) {
-            self::$alertas['error'][] = 'El email es obligatorio';
+            self::$alerts['error'][] = 'El email es obligatorio';
         }
-        return self::$alertas;
+        return self::$alerts;
     }
 
-    public function validarPassword(string $confirmacion): array
+    public function validatePassword(string $confirmation): array
     {
         if ($this->password === '') {
-            self::$alertas['error'][] = 'La contraseña es obligatoria';
+            self::$alerts['error'][] = 'La contraseña es obligatoria';
         } elseif (
             strlen($this->password) < 8 ||
             !preg_match('/[A-Z]/', $this->password) ||
             !preg_match('/[a-z]/', $this->password) ||
             !preg_match('/[0-9]/', $this->password)
         ) {
-            self::$alertas['error'][] =
+            self::$alerts['error'][] =
                 'La contraseña debe tener al menos 8 caracteres e incluir mayúsculas, minúsculas y números';
         }
 
-        if ($confirmacion === '') {
-            self::$alertas['error'][] = 'Debes repetir la contraseña';
-        } elseif ($this->password !== $confirmacion) {
-            self::$alertas['error'][] = 'Las contraseñas no coinciden';
+        if ($confirmation === '') {
+            self::$alerts['error'][] = 'Debes repetir la contraseña';
+        } elseif ($this->password !== $confirmation) {
+            self::$alerts['error'][] = 'Las contraseñas no coinciden';
         }
 
-        return self::$alertas;
+        return self::$alerts;
     }
 }

@@ -1,20 +1,20 @@
-$fuente_principal: 'Poppins', sans-serif;
+$font-family: 'Poppins', sans-serif;
 
-$telefono: 480px;
-$tablet: 768px;
-$desktop: 1024px;
+$breakpoint-mobile: 480px;
+$breakpoint-tablet: 768px;
+$breakpoint-desktop: 1024px;
 
-$azul: #0da6f3;
-$rojo: #cb0000;
-$verde: #329f00;
-$negro: #1a1b15;
+$color-blue: #0da6f3;
+$color-red: #cb0000;
+$color-green: #329f00;
+$color-black: #1a1b15;
 
-$blanco: #FFFFFF;
-$gris: #e1e1e1;
+$color-white: #FFFFFF;
+$color-gray: #e1e1e1;
 
-$separacion: 5rem;
+$spacing: 5rem;
 
-$delgada: 300;
-$regular: 400;
-$bold: 700;
-$black: 900
+$font-weight-light: 300;
+$font-weight-regular: 400;
+$font-weight-bold: 700;
+$font-weight-black: 900

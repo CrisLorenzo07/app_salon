@@ -1,0 +1,46 @@
+@use '../base/variables' as v;
+@use '../base/mixins' as m;
+
+.service-list {
+
+    @include m.tablet {
+
+        display: grid;
+        gap: 2rem;
+
+        @include m.grid(2, 2rem);
+    }
+
+    .service {
+        background-color: v.$color-white;
+        padding: 3rem;
+        border-radius: 1rem;
+        transition-property: transform;
+        transition-duration: 300ms;
+        text-align: center;
+
+        @include m.tablet {
+            text-align: left;
+        }
+
+        &:hover {
+            transform: scale(1.1);
+            -webkit-transform: scale(1.1);
+            -moz-transform: scale(1.1);
+            -ms-transform: scale(1.1);
+            -o-transform: scale(1.1);
+        }
+
+        p {
+            color: v.$color-black;
+            margin: 0 0 calc(v.$spacing / 4) 0;
+        }
+
+        .service-price {
+            color: v.$color-blue;
+            font-weight: v.$font-weight-bold;
+            font-size: 3rem;
+            margin: 0;
+        }
+    }
+}

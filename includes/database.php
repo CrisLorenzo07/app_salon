@@ -3,18 +3,18 @@
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 $host = '127.0.0.1';
-$usuario = 'app_salon_user';
+$username = 'app_salon_user';
 $password = 'app_salon_passwd';
-$baseDeDatos = 'app_salon_db';
-$puerto = 3306;
+$databaseName = 'app_salon_db';
+$port = 3306;
 
 try {
     $db = new mysqli(
         $host,
-        $usuario,
+        $username,
         $password,
-        $baseDeDatos,
-        $puerto
+        $databaseName,
+        $port
     );
 
     $db->set_charset('utf8mb4');

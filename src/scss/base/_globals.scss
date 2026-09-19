@@ -10,8 +10,8 @@ body {
     min-height: 100%;
     display: flex;
     flex-direction: column;
-    background-color: v.$negro;
-    color: v.$blanco;
+    background-color: v.$color-black;
+    color: v.$color-white;
 }
 
 *,
@@ -21,11 +21,11 @@ body {
 }
 
 body {
-    font-family: v.$fuente_principal;
+    font-family: v.$font-family;
     font-size: 1.6rem;
 }
 
-.contenedor {
+.container {
     width: 95%;
     max-width: 1200px;
     margin: 0 auto;

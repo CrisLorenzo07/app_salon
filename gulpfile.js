@@ -32,7 +32,7 @@ export function js() {
         .pipe(dest('./public/build/js'))
 }
 
-export async function imagenes() {
+export async function images() {
     const srcDir = './src/img';
     const buildDir = './public/build/img';
     const images = await glob(paths.img, { nodir: true, nocase: true })
@@ -41,14 +41,14 @@ export async function imagenes() {
         const relativePath = path.relative(srcDir, path.dirname(file));
         const outputSubDir = path.join(buildDir, relativePath);
         try {
-            await procesarImagenes(file, outputSubDir);
+            await processImages(file, outputSubDir);
         } catch (error) {
             throw new Error(`No se pudo procesar la imagen "${file}": ${error.message}`, { cause: error });
         }
     }
 }
 
-async function procesarImagenes(file, outputSubDir) {
+async function processImages(file, outputSubDir) {
     if (!fs.existsSync(outputSubDir)) {
         fs.mkdirSync(outputSubDir, { recursive: true })
     }
@@ -80,9 +80,9 @@ async function procesarImagenes(file, outputSubDir) {
 export function dev(done) {
     watch(paths.scss, css);
     watch(paths.js, js);
-    watch(paths.img, { nocase: true }, imagenes)
+    watch(paths.img, { nocase: true }, images)
     done()
 }
 
-export const build = series(js, css, imagenes)
+export const build = series(js, css, images)
 export default series(build, dev)
