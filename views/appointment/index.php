@@ -36,7 +36,7 @@
         </form>
     </div>
 
-    <div id="step-3" class="section">
+    <div id="step-3" class="section summary-content">
         <h2>Resumen</h2>
         <p class="text-center">Verifica que la información sea correcta</p>
     </div>
@@ -58,3 +58,5 @@ $script = "
     ?>
 
 <?php include_once __DIR__ . '/../templates/alerts.php'; ?>
+
+

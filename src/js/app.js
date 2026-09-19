@@ -43,6 +43,10 @@ function showSection() {
     `.tabs button[data-step="${currentStep}"]`,
   );
   tab.classList.add("is-active");
+
+  if (currentStep === 3) {
+    showSummary();
+  }
 }
 
 function initTabs() {
@@ -145,7 +149,6 @@ function selectService(service) {
     services.push(service);
     serviceElement?.classList.add("selected");
   }
-  console.log(appointment);
 }
 
 function customerName() {
@@ -158,7 +161,8 @@ function selectedDate() {
     const day = new Date(e.target.value).getUTCDay();
     if ([6, 0].includes(day)) {
       e.target.value = "";
-      showAlert("Fin de semanas se encuetra cerrado", "error");
+      appointment.date = "";
+      showAlert("Fin de semanas se encuetra cerrado", "error", ".form");
     } else {
       appointment.date = e.target.value;
     }
@@ -174,26 +178,85 @@ function selectedTime() {
     const time = appointmentTime.split(":")[0];
     if (time < 9 || time > 19) {
       e.target.value = "";
-      showAlert("Hora no Válida", "error");
+      appointment.time = "";
+      showAlert("Hora no Válida", "error", ".form");
     } else {
       appointment.time = e.target.value;
     }
   });
 }
 
-function showAlert(message, type) {
-  const previewAlert = document.querySelector(".alert");
-  if (previewAlert) return;
+function showAlert(message, type, element, disappears = true) {
+  const reference = document.querySelector(element);
+  if (!reference) return;
+
+  const previousAlert = reference.querySelector(".alert");
+  previousAlert?.remove();
 
   const alert = document.createElement("DIV");
   alert.textContent = message;
   alert.classList.add("alert");
   alert.classList.add(type);
 
-  const form = document.querySelector("form");
-  form.appendChild(alert);
+  reference.appendChild(alert);
 
-  setTimeout(() => {
-    alert.remove();
-  }, 3000);
+  if (disappears) {
+    setTimeout(() => {
+      alert.remove();
+    }, 3000);
+  }
+}
+
+function showSummary() {
+  if (
+    Object.values(appointment).includes("") ||
+    appointment.services.length === 0
+  ) {
+    showAlert(
+      "Faltan datos de Servicios, Fecha u Hora",
+      "error",
+      ".summary-content",
+      false,
+    );
+    return;
+  }
+
+  const { name, date, time, services } = appointment;
+
+  const nameCustomer = document.createElement("P");
+  nameCustomer.innerHTML = `<span>Nombre:</span> ${name}`;
+
+  const appointmentDate = document.createElement("P");
+  appointmentDate.innerHTML = `<span>Fecha:</span> ${date}`;
+
+  const appointmentTime = document.createElement("P");
+  appointmentTime.innerHTML = `<span>Hora:</span> ${time}`;
+
+  const summary = document.querySelector(".summary-content");
+  summary.appendChild(nameCustomer);
+  summary.appendChild(appointmentDate);
+  summary.appendChild(appointmentTime);
+
+  services.forEach((service) => {
+    const { name, price } = service;
+    const serviceContainer = document.createElement("DIV");
+    serviceContainer.classList.add("service-content");
+
+    const serviceText = document.createElement("P");
+    serviceText.textContent = name;
+
+    const servicePrice = document.createElement("P");
+    servicePrice.innerHTML = `<span>Precio:</span> $${price.toFixed(2)}`;
+
+    serviceContainer.appendChild(serviceText);
+    serviceContainer.appendChild(servicePrice);
+    summary.appendChild(serviceContainer);
+
+    /*    document.querySelector(".summary-content").appendChild(customerName);
+    document.querySelector(".summary-content").appendChild(appointmentDate);
+    document.querySelector(".summary-content").appendChild(appointmentTime);
+
+    document.querySelector(".summary-content").appendChild(serviceText);
+    document.querySelector(".summary-content").appendChild(servicePrice); */
+  });
 }
