@@ -26,7 +26,8 @@
             </div>
             <div class="field">
                 <label for="date">Fecha</label>
-                <input type="date" id="date">
+                <input type="date" id="date" min="<?php echo date('Y-m-d', strtotime('+1 day')); ?>">
+
             </div>
             <div class="field">
                 <label for="time">Hora</label>
@@ -55,21 +56,5 @@ $script = "
 <script src='/build/js/app.js'></script>
 "
     ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <?php include_once __DIR__ . '/../templates/alerts.php'; ?>

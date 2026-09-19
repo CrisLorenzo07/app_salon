@@ -19,6 +19,10 @@ function initApp() {
   initPreviousButton();
 
   fetchServices();
+
+  customerName();
+  selectedDate();
+  selectedTime();
 }
 
 function showSection() {
@@ -127,7 +131,69 @@ function renderServices(services) {
 }
 
 function selectService(service) {
-  appointment.services = [...appointment.services, service];
+  const { id } = service;
+  const { services } = appointment;
 
+  const serviceElement = document.querySelector(`[data-service-id="${id}"]`);
+
+  if (services.some((addedService) => addedService.id === id)) {
+    appointment.services = services.filter(
+      (addedService) => addedService.id !== id,
+    );
+    serviceElement?.classList.remove("selected");
+  } else {
+    services.push(service);
+    serviceElement?.classList.add("selected");
+  }
   console.log(appointment);
+}
+
+function customerName() {
+  appointment.name = document.querySelector("#name").value;
+}
+
+function selectedDate() {
+  const inputDate = document.querySelector("#date");
+  inputDate.addEventListener("input", function (e) {
+    const day = new Date(e.target.value).getUTCDay();
+    if ([6, 0].includes(day)) {
+      e.target.value = "";
+      showAlert("Fin de semanas se encuetra cerrado", "error");
+    } else {
+      appointment.date = e.target.value;
+    }
+  });
+}
+
+function selectedTime() {
+  const inputTime = document.querySelector("#time");
+  inputTime.addEventListener("input", function (e) {
+    console.log(e.target.value);
+
+    const appointmentTime = e.target.value;
+    const time = appointmentTime.split(":")[0];
+    if (time < 9 || time > 19) {
+      e.target.value = "";
+      showAlert("Hora no Válida", "error");
+    } else {
+      appointment.time = e.target.value;
+    }
+  });
+}
+
+function showAlert(message, type) {
+  const previewAlert = document.querySelector(".alert");
+  if (previewAlert) return;
+
+  const alert = document.createElement("DIV");
+  alert.textContent = message;
+  alert.classList.add("alert");
+  alert.classList.add(type);
+
+  const form = document.querySelector("form");
+  form.appendChild(alert);
+
+  setTimeout(() => {
+    alert.remove();
+  }, 3000);
 }

@@ -23,6 +23,14 @@
             text-align: left;
         }
 
+        &.selected {
+            background-color: v.$color-blue;
+
+            p {
+                color: v.$color-white;
+            }
+        }
+
         &:hover {
             transform: scale(1.1);
             -webkit-transform: scale(1.1);
