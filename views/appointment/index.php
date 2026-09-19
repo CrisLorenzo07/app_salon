@@ -1,5 +1,5 @@
 <h1 class="page-title">Crear nueva cita</h1>
-<p class="page-description">Elige tus servicios</p>
+<p class="page-description">Elige tus servicios e ingresa tus datos</p>
 
 <div id="app">
 
@@ -37,8 +37,8 @@
     </div>
 
     <div id="step-3" class="section summary-content">
-        <h2>Resumen</h2>
-        <p class="text-center">Verifica que la información sea correcta</p>
+        <h2 id="summary-heading">Resumen</h2>
+        <div class="summary-details"></div>
     </div>
 
     <div class="pagination">
@@ -58,5 +58,3 @@ $script = "
     ?>
 
 <?php include_once __DIR__ . '/../templates/alerts.php'; ?>
-
-

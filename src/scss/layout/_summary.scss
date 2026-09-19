@@ -1,0 +1,24 @@
+@use '../base/variables' as v;
+
+
+.summary-content {
+    .services-heading {
+        margin-top: 4rem;
+    }
+
+    p {
+        margin-bottom: 1rem;
+    }
+
+    span {
+        color: v.$color-blue;
+        font-weight: v.$font-weight-bold;
+        font-size: 2.4rem;
+    }
+
+}
+
+.service-content {
+    padding: 3rem 0;
+    border-bottom: 1px solid v.$color-gray;
+}

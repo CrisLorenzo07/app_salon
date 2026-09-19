@@ -208,10 +208,16 @@ function showAlert(message, type, element, disappears = true) {
 }
 
 function showSummary() {
+  const summary = document.querySelector(".summary-details");
+  const summaryHeading = document.querySelector("#summary-heading");
+  summary.replaceChildren();
+  document.querySelector(".summary-content .alert")?.remove();
+
   if (
     Object.values(appointment).includes("") ||
     appointment.services.length === 0
   ) {
+    summaryHeading.hidden = false;
     showAlert(
       "Faltan datos de Servicios, Fecha u Hora",
       "error",
@@ -221,21 +227,48 @@ function showSummary() {
     return;
   }
 
+  summaryHeading.hidden = true;
+
   const { name, date, time, services } = appointment;
 
+  const appointmentHeading = document.createElement("h3");
+  appointmentHeading.textContent = "Resumen de Cita";
+  summary.appendChild(appointmentHeading);
+
   const nameCustomer = document.createElement("P");
-  nameCustomer.innerHTML = `<span>Nombre:</span> ${name}`;
+  const nameLabel = document.createElement("span");
+  nameLabel.textContent = "Nombre:";
+  nameCustomer.append(nameLabel, ` ${name}`);
+
+  const objDate = new Date(date);
+  const month = objDate.getMonth();
+  const day = objDate.getDate() + 2;
+  const year = objDate.getFullYear();
+
+  const utcDate = new Date(Date.UTC(year, month, day));
+
+  const options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+  const formatedDate = utcDate.toLocaleDateString("es-UY", options);
 
   const appointmentDate = document.createElement("P");
-  appointmentDate.innerHTML = `<span>Fecha:</span> ${date}`;
+  appointmentDate.innerHTML = `<span>Fecha:</span> ${formatedDate}`;
 
   const appointmentTime = document.createElement("P");
-  appointmentTime.innerHTML = `<span>Hora:</span> ${time}`;
+  appointmentTime.innerHTML = `<span>Hora:</span> ${time} Horas`;
 
-  const summary = document.querySelector(".summary-content");
   summary.appendChild(nameCustomer);
   summary.appendChild(appointmentDate);
   summary.appendChild(appointmentTime);
+
+  const servicesHeading = document.createElement("h3");
+  servicesHeading.textContent = "Resumen de Servicios";
+  servicesHeading.classList.add("services-heading");
+  summary.appendChild(servicesHeading);
 
   services.forEach((service) => {
     const { name, price } = service;
@@ -251,12 +284,17 @@ function showSummary() {
     serviceContainer.appendChild(serviceText);
     serviceContainer.appendChild(servicePrice);
     summary.appendChild(serviceContainer);
-
-    /*    document.querySelector(".summary-content").appendChild(customerName);
-    document.querySelector(".summary-content").appendChild(appointmentDate);
-    document.querySelector(".summary-content").appendChild(appointmentTime);
-
-    document.querySelector(".summary-content").appendChild(serviceText);
-    document.querySelector(".summary-content").appendChild(servicePrice); */
   });
+
+  const reserveButton = document.createElement("BUTTON");
+  reserveButton.type = "button";
+  reserveButton.classList.add("button");
+  reserveButton.textContent = "Reservar Cita";
+  reserveButton.onclick = reserveAppointment;
+
+  summary.appendChild(reserveButton);
+}
+
+function reserveAppointment() {
+  console.log("Reservando cita....");
 }
