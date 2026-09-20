@@ -6,7 +6,7 @@ class ActiveRecord
 {
     protected static $db;
     protected static $table = '';
-    protected static $columns = [];
+    protected static $columnsDB = [];
 
     protected static $alerts = [];
 
@@ -61,7 +61,7 @@ class ActiveRecord
     public function attributes()
     {
         $attributes = [];
-        foreach (static::$columns as $column) {
+        foreach (static::$columnsDB as $column) {
             if ($column === 'id')
                 continue;
             $attributes[$column] = $this->$column;
@@ -122,7 +122,7 @@ class ActiveRecord
 
     public static function where($column, $value): ?static
     {
-        if (!in_array($column, static::$columns, true)) {
+        if (!in_array($column, static::$columnsDB, true)) {
             throw new \InvalidArgumentException('Columna no válida');
         }
 

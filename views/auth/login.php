@@ -19,6 +19,6 @@ include_once __DIR__ . "/../templates/alerts.php"
 </form>
 
 <div class="actions">
-    <a href="/create-account">¿Aún no tienes una cuenta?, crear una</a>
-    <a href="/forgot-password">¿Olvidaste tu contraseña?</a>
+    <a href="/crear-cuenta">¿Aún no tienes una cuenta?, crear una</a>
+    <a href="/olvide">¿Olvidaste tu contraseña?</a>
 </div>

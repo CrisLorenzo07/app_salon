@@ -38,7 +38,7 @@ class Email
             'UTF-8'
         );
 
-        $url = 'http://localhost:8000/confirm-account?token='
+        $url = 'http://localhost:8000/confirmar-cuenta?token='
             . rawurlencode($this->token);
 
         $content = '<html><body>';
@@ -72,7 +72,7 @@ class Email
             'UTF-8'
         );
 
-        $url = 'http://localhost:8000/reset-password?token='
+        $url = 'http://localhost:8000/recuperar?token='
             . rawurlencode($this->token);
 
         $content = '<html><body>';

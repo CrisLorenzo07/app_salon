@@ -30,9 +30,9 @@ class LoginController
 
                         if ($user->admin === "1") {
                             $_SESSION['admin'] = $user->admin ?? null;
-                            header('Location: /admin');
+                            header('Location: /administracion');
                         } else {
-                            header('Location: /appointment');
+                            header('Location: /cita');
                         }
                     }
                 } else {
@@ -66,7 +66,7 @@ class LoginController
                     $email->sendConfirmation();
                     $result = $user->save();
                     if ($result) {
-                        header('Location: /message');
+                        header('Location: /mensaje');
                     }
                 }
             }

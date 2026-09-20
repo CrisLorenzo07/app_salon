@@ -5,7 +5,7 @@
 include_once __DIR__ . "/../templates/alerts.php"
     ?>
 
-<form action="/create-account" class="form" method="POST">
+<form action="/crear-cuenta" class="form" method="POST">
     <div class="field">
         <label for="name">Nombre</label>
         <input type="text" id="name" name="name" placeholder="Ingresa tu nombre"
@@ -36,5 +36,5 @@ include_once __DIR__ . "/../templates/alerts.php"
 
 <div class="actions">
     <a href="/">¿Ya tienes una cuenta? Inicia Sesión</a>
-    <a href="/forgot-password">¿Olvidaste tu contraseña?</a>
+    <a href="/olvide">¿Olvidaste tu contraseña?</a>
 </div>

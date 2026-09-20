@@ -99,7 +99,7 @@ function initNextButton() {
 
 async function fetchServices() {
   try {
-    const url = "/api/services";
+    const url = "/api/servicios";
     const response = await fetch(url);
     const services = await response.json();
     renderServices(services);
@@ -172,8 +172,6 @@ function selectedDate() {
 function selectedTime() {
   const inputTime = document.querySelector("#time");
   inputTime.addEventListener("input", function (e) {
-    console.log(e.target.value);
-
     const appointmentTime = e.target.value;
     const time = appointmentTime.split(":")[0];
     if (time < 9 || time > 19) {
@@ -295,6 +293,23 @@ function showSummary() {
   summary.appendChild(reserveButton);
 }
 
-function reserveAppointment() {
-  console.log("Reservando cita....");
+async function reserveAppointment() {
+  const { name, date, time, services } = appointment;
+
+  const servicesId = services.map((service) => service.id);
+
+  const data = new FormData();
+  data.append("name", name);
+  data.append("date", date);
+  data.append("time", time);
+  data.append("services", servicesId.join(","));
+
+  const url = "/api/citas";
+  const response = await fetch(url, {
+    method: "POST",
+    body: data,
+  });
+
+  const result = await response.json();
+  console.log(result);
 }
