@@ -15,6 +15,27 @@ class ActiveRecord
         self::$db = $database;
     }
 
+    public static function beginTransaction(): void
+    {
+        if (!self::$db->begin_transaction()) {
+            throw new \RuntimeException('No se pudo iniciar la transacción.');
+        }
+    }
+
+    public static function commit(): void
+    {
+        if (!self::$db->commit()) {
+            throw new \RuntimeException('No se pudo confirmar la transacción.');
+        }
+    }
+
+    public static function rollback(): void
+    {
+        if (!self::$db->rollback()) {
+            throw new \RuntimeException('No se pudo revertir la transacción.');
+        }
+    }
+
     public static function setAlert($type, $message)
     {
         static::$alerts[$type][] = $message;

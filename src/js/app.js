@@ -311,5 +311,23 @@ async function reserveAppointment() {
   });
 
   const result = await response.json();
-  console.log(result);
+  console.log(result.result);
+
+  if (result.result) {
+    Swal.fire({
+      title: "Cita reservada",
+      text: "Tu cita se guardó correctamente.",
+      icon: "success",
+      confirmButtonText: "Aceptar",
+    }).then(() => {
+      window.location.reload();
+    });
+  } else {
+    Swal.fire({
+      title: "No se pudo reservar",
+      text: "Revisa los datos e intenta nuevamente.",
+      icon: "error",
+      confirmButtonText: "Aceptar",
+    });
+  }
 }
