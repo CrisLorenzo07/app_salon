@@ -204,7 +204,9 @@ class LoginController
 
     public static function logout(Router $router)
     {
-        echo "Desde logout";
+        session_start();
+        $_SESSION = [];
+        header('Location: /');
     }
 }
 

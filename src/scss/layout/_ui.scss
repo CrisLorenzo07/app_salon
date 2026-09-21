@@ -25,3 +25,19 @@
         padding: 3rem 0;
     }
 }
+
+.nav {
+
+    margin: v.$spacing 0;
+
+    @include m.tablet {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .button {
+        @include m.button(v.$color-black, v.$color-white);
+        margin: 0;
+    }
+}
