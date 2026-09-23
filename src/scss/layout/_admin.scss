@@ -1,0 +1,51 @@
+@use '../base/variables' as v;
+
+#admin-appointment {
+    .admin-appointment-card {
+        margin: 3rem 0;
+        padding: 2rem;
+        border: 1px solid rgba(v.$color-gray, 0.25);
+        border-radius: 1rem;
+        overflow-wrap: anywhere;
+
+        h3 {
+            margin-top: 0;
+        }
+
+        h4 {
+            margin: 0 0 1.5rem;
+            font-size: 2rem;
+            text-align: left;
+        }
+
+        p {
+            margin: 0 0 1rem;
+        }
+    }
+
+    .appointment-client {
+        margin-top: 2rem;
+        padding: 2rem;
+        background-color: rgba(v.$color-white, 0.04);
+        border-radius: 0.5rem;
+    }
+
+    .appointment-services {
+        margin-top: 2.5rem;
+        padding: 2rem;
+        border-top: 2px solid v.$color-blue;
+        background-color: rgba(v.$color-blue, 0.06);
+    }
+
+    p.appointment-total {
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid rgba(v.$color-gray, 0.25);
+        font-weight: v.$font-weight-bold;
+    }
+
+    .appointment-label {
+        color: v.$color-blue;
+        font-weight: v.$font-weight-bold;
+    }
+}

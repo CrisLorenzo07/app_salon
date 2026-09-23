@@ -34,20 +34,39 @@ include_once __DIR__ . '/../templates/alerts.php';
         <?php
         $previousId = null;
         $appointmentNumber = 0;
+        $total = 0;
         ?>
-        <?php foreach ($appointments as $appointment): ?>
+        <?php foreach ($appointments as $key => $appointment): ?>
             <?php if ($previousId !== $appointment->id): ?>
-                <?php $appointmentNumber++; ?>
+                <?php
+                $appointmentNumber++;
+                $total = 0;
+                ?>
+                <article class="admin-appointment-card">
                 <h3>Cita #<?php echo $appointmentNumber; ?></h3>
-                <p>Fecha: <?php echo s((new DateTimeImmutable($appointment->date))->format('d/m/y')); ?> · Hora:
+                <p><span class="appointment-label">Fecha:</span> <?php echo s((new DateTimeImmutable($appointment->date))->format('d/m/y')); ?> · <span class="appointment-label">Hora:</span>
                     <?php echo s(substr($appointment->time, 0, 5)); ?></p>
-                <p>Cliente: <?php echo s($appointment->client); ?></p>
-                <p>Email: <?php echo s($appointment->email); ?></p>
-                <p>Teléfono: <?php echo s($appointment->phone); ?></p>
+                <section class="appointment-client">
+                <h4>Datos del cliente</h4>
+                <p><span class="appointment-label">Cliente:</span> <?php echo s($appointment->client); ?></p>
+                <p><span class="appointment-label">Email:</span> <?php echo s($appointment->email); ?></p>
+                <p><span class="appointment-label">Teléfono:</span> <?php echo s($appointment->phone); ?></p>
+                </section>
+                <section class="appointment-services">
+                <h4>Servicios de la cita</h4>
                 <?php $previousId = $appointment->id; ?>
             <?php endif; ?>
-            <p>Servicio: <?php echo s($appointment->service ?: 'Sin servicio asignado'); ?>
-                — Precio: $<?php echo number_format($appointment->price, 2, ',', '.'); ?></p>
+            <p><span class="appointment-label">Servicio:</span> <?php echo s($appointment->service ?: 'Sin servicio asignado'); ?>
+                — <span class="appointment-label">Precio:</span> $<?php echo number_format($appointment->price, 2, ',', '.'); ?></p>
+            <?php
+            $total += $appointment->price;
+            $nextAppointment = $appointments[$key + 1] ?? null;
+            ?>
+            <?php if ($nextAppointment === null || $nextAppointment->id !== $appointment->id): ?>
+                <p class="appointment-total"><span class="appointment-label">Total:</span> $<?php echo number_format($total, 2, ',', '.'); ?></p>
+                </section>
+                </article>
+            <?php endif; ?>
         <?php endforeach; ?>
     <?php endif; ?>
 </div>
