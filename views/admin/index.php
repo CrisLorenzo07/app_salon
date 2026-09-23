@@ -1,3 +1,4 @@
+<?php $pageClass = 'admin-page'; ?>
 <h1 class="page-title">Panel de Administración</h1>
 
 <?php

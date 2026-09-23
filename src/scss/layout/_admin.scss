@@ -1,4 +1,57 @@
 @use '../base/variables' as v;
+@use '../base/mixins' as m;
+
+.admin-page {
+    .app-container .app {
+        min-width: 0;
+        scrollbar-width: thin;
+        scrollbar-color: v.$color-blue v.$color-black;
+
+        &::-webkit-scrollbar {
+            width: 0.8rem;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: v.$color-blue;
+            border-radius: 1rem;
+        }
+    }
+
+    .search {
+        label,
+        .admin-date input[type='text'],
+        .admin-date button {
+            font-family: v.$font-family;
+            font-size: 2rem;
+        }
+
+        .admin-date input[type='text'] {
+            width: 100%;
+            min-height: 5rem;
+            font-weight: v.$font-weight-regular;
+        }
+    }
+
+    @include m.tablet {
+        .app-container {
+            height: 100vh;
+            height: 100dvh;
+            min-height: 0;
+            overflow: hidden;
+
+            .app {
+                width: 100%;
+                height: 100%;
+                min-height: 0;
+                padding: 3rem clamp(2rem, 3vw, 5rem);
+                overflow-y: auto;
+                overflow-x: hidden;
+                overscroll-behavior-y: contain;
+                scrollbar-gutter: stable;
+            }
+        }
+    }
+}
 
 #admin-appointment {
     .admin-appointment-card {

@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="/build/css/app.css">
 </head>
 
-<body>
+<body class="<?php echo htmlspecialchars($pageClass ?? '', ENT_QUOTES, 'UTF-8'); ?>">
     <div class="app-container">
         <div class="image"></div>
         <div class="app">
