@@ -24,7 +24,7 @@ include_once __DIR__ . '/../templates/alerts.php';
         <button type="submit" class="button">Buscar citas</button>
     </form>
 </div>
-<?php $script = '<script src="/build/js/admin-date.js"></script>'; ?>
+<?php $script = '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script><script src="/build/js/admin-date.js"></script><script src="/build/js/admin-appointments.js"></script>'; ?>
 
 <div id="admin-appointment">
     <?php if (empty($appointments)): ?>
@@ -66,6 +66,13 @@ include_once __DIR__ . '/../templates/alerts.php';
             <?php if ($nextAppointment === null || $nextAppointment->id !== $appointment->id): ?>
                 <p class="appointment-total"><span class="appointment-label">Total:</span> $<?php echo number_format($total, 2, ',', '.'); ?></p>
                 </section>
+                <form class="delete-appointment" action="/api/eliminar" method="POST"
+                    data-number="<?php echo $appointmentNumber; ?>">
+                    <input type="hidden" name="id" value="<?php echo s((string) $appointment->id); ?>">
+                    <input type="hidden" name="csrf_token" value="<?php echo s($_SESSION['csrf_token'] ?? ''); ?>">
+                    <button type="submit" class="button button-delete" hidden>Eliminar cita</button>
+                    <p class="delete-error" role="alert"></p>
+                </form>
                 </article>
             <?php endif; ?>
         <?php endforeach; ?>

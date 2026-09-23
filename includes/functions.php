@@ -20,3 +20,16 @@ function isAuth(): void
         header('Location: /');
     }
 }
+
+function isAdmin(): void
+{
+    if (empty($_SESSION['login'])) {
+        header('Location: /');
+        exit;
+    }
+
+    if (($_SESSION['admin'] ?? 0) !== 1) {
+        header('Location: /cita');
+        exit;
+    }
+}

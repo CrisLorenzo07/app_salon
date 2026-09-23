@@ -80,4 +80,35 @@ class APIController
 
         echo json_encode($result);
     }
+
+    public static function delete()
+    {
+        header('Content-Type: application/json; charset=utf-8');
+        if (empty($_SESSION['login']) || ($_SESSION['admin'] ?? 0) !== 1) {
+            http_response_code(403);
+            echo json_encode(['result' => false, 'message' => 'No tienes permiso para eliminar citas.']);
+            return;
+        }
+        $token = $_POST['csrf_token'] ?? '';
+        if (!is_string($token) || empty($_SESSION['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $token)) {
+            http_response_code(403);
+            echo json_encode(['result' => false, 'message' => 'Recarga la página e inténtalo nuevamente.']);
+            return;
+        }
+        $id = filter_var($_POST['id'] ?? null, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
+        if ($id === false) {
+            http_response_code(400);
+            echo json_encode(['result' => false, 'message' => 'La cita no es válida.']);
+            return;
+        }
+        try {
+            $deleted = Appointment::deleteWithServices($id);
+            http_response_code($deleted ? 200 : 404);
+            echo json_encode(['result' => $deleted, 'message' => $deleted ? 'Cita eliminada.' : 'La cita ya no existe.']);
+        } catch (\Throwable $error) {
+            error_log('Error al eliminar cita: ' . $error->getMessage());
+            http_response_code(500);
+            echo json_encode(['result' => false, 'message' => 'No se pudo eliminar la cita. Inténtalo nuevamente.']);
+        }
+    }
 }

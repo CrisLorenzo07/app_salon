@@ -10,15 +10,9 @@ class AdminController
 
     public static function index(Router $router)
     {
-        if (empty($_SESSION['login'])) {
-            header('Location: /');
-            return;
-        }
-        if (($_SESSION['admin'] ?? 0) !== 1) {
-            header('Location: /cita');
-            return;
-        }
+        isAdmin();
 
+        $_SESSION['csrf_token'] ??= bin2hex(random_bytes(32));
         $date = $_GET['date'] ?? date('Y-m-d');
         $format = is_string($date) && preg_match('/^[0-9]{2}\/[0-9]{2}\/[0-9]{2}$/D', $date)
             ? 'd/m/y'

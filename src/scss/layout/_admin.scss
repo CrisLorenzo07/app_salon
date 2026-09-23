@@ -54,6 +54,20 @@
 }
 
 #admin-appointment {
+    .button-delete {
+        background-color: v.$color-red;
+        margin-bottom: 0;
+
+        &:disabled {
+            opacity: 0.6;
+            cursor: wait;
+        }
+    }
+
+    .delete-error:empty {
+        display: none;
+    }
+
     .admin-appointment-card {
         margin: 3rem 0;
         padding: 2rem;

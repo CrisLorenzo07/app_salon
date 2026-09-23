@@ -26,6 +26,7 @@ $router->get('/cita', [AppointmentController::class, 'index']);
 
 $router->get('/api/servicios', [APIController::class, 'index']);
 $router->post('/api/citas', [APIController::class, 'save']);
+$router->post('/api/eliminar', [APIController::class, 'delete']);
 
 $router->get('/admin', [AdminController::class, 'index']);
 
