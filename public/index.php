@@ -5,6 +5,7 @@ require_once __DIR__ . '/../includes/app.php';
 use Controllers\APIController;
 use Controllers\AppointmentController;
 use Controllers\LoginController;
+use Controllers\AdminController;
 use MVC\Router;
 
 $router = new Router();
@@ -25,5 +26,7 @@ $router->get('/cita', [AppointmentController::class, 'index']);
 
 $router->get('/api/servicios', [APIController::class, 'index']);
 $router->post('/api/citas', [APIController::class, 'save']);
+
+$router->get('/admin', [AdminController::class, 'index']);
 
 $router->checkRoutes();

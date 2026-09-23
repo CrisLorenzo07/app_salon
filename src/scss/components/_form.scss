@@ -8,6 +8,44 @@
 
 }
 
+.admin-date {
+    position: relative;
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    gap: 1rem;
+
+    input[type='text'] {
+        min-width: 0;
+    }
+
+    button {
+        border: none;
+        border-radius: 1rem;
+        padding: 1rem;
+        cursor: pointer;
+    }
+
+    .admin-date-picker {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        opacity: 0;
+        pointer-events: none;
+
+        &.is-visible {
+            position: static;
+            width: auto;
+            height: auto;
+            opacity: 1;
+            pointer-events: auto;
+        }
+    }
+}
+
 .field {
     display: flex;
     margin-bottom: 2rem;

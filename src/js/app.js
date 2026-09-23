@@ -20,7 +20,7 @@ function initApp() {
 
   fetchServices();
 
-  customerName();
+  clientName();
   selectedDate();
   selectedTime();
 }
@@ -151,13 +151,17 @@ function selectService(service) {
   }
 }
 
-function customerName() {
+function clientName() {
   appointment.name = document.querySelector("#name").value;
 }
 
 function selectedDate() {
-  const inputDate = document.querySelector("#date");
+  const inputDate = document.querySelector("#date-calendar") ?? document.querySelector("#date");
   inputDate.addEventListener("input", function (e) {
+    if (!e.target.value || !e.target.checkValidity()) {
+      appointment.date = "";
+      return;
+    }
     const day = new Date(e.target.value).getUTCDay();
     if ([6, 0].includes(day)) {
       e.target.value = "";
@@ -233,25 +237,13 @@ function showSummary() {
   appointmentHeading.textContent = "Resumen de Cita";
   summary.appendChild(appointmentHeading);
 
-  const nameCustomer = document.createElement("P");
+  const nameClient = document.createElement("P");
   const nameLabel = document.createElement("span");
   nameLabel.textContent = "Nombre:";
-  nameCustomer.append(nameLabel, ` ${name}`);
+  nameClient.append(nameLabel, ` ${name}`);
 
-  const objDate = new Date(date);
-  const month = objDate.getMonth();
-  const day = objDate.getDate() + 2;
-  const year = objDate.getFullYear();
-
-  const utcDate = new Date(Date.UTC(year, month, day));
-
-  const options = {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  };
-  const formatedDate = utcDate.toLocaleDateString("es-UY", options);
+  const [year, month, day] = date.split('-');
+  const formatedDate = `${day}/${month}/${year.slice(-2)}`;
 
   const appointmentDate = document.createElement("P");
   appointmentDate.innerHTML = `<span>Fecha:</span> ${formatedDate}`;
@@ -259,7 +251,7 @@ function showSummary() {
   const appointmentTime = document.createElement("P");
   appointmentTime.innerHTML = `<span>Hora:</span> ${time} Horas`;
 
-  summary.appendChild(nameCustomer);
+  summary.appendChild(nameClient);
   summary.appendChild(appointmentDate);
   summary.appendChild(appointmentTime);
 

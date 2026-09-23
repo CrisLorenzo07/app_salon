@@ -21,19 +21,23 @@ class LoginController
 
                 if ($user) {
                     if ($user->verifyPasswordAndConfirmation($auth->password)) {
-                        session_start();
+                        if (session_status() !== PHP_SESSION_ACTIVE) {
+                            session_start();
+                        }
 
                         $_SESSION['id'] = $user->id;
                         $_SESSION['name'] = $user->name . " " . $user->last_name;
                         $_SESSION['email'] = $user->email;
                         $_SESSION['login'] = true;
 
-                        if ($user->admin === "1") {
-                            $_SESSION['admin'] = $user->admin ?? null;
-                            header('Location: /administracion');
+                        $_SESSION['admin'] = $user->admin;
+
+                        if ($user->admin === 1) {
+                            header('Location: /admin');
                         } else {
                             header('Location: /cita');
                         }
+                        return;
                     }
                 } else {
                     User::setAlert('error', 'Usuario no encontrado');
@@ -209,5 +213,4 @@ class LoginController
         header('Location: /');
     }
 }
-
 

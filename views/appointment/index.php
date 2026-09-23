@@ -1,11 +1,9 @@
 <h1 class="page-title">Crear nueva cita</h1>
 <p class="page-description">Elige tus servicios e ingresa tus datos</p>
 
-<div class="nav">
-    <p>Hola: <?php echo $name ?? ''; ?></p>
-    <a class="button" href="/cerrar-sesion">Cerrar Sesión</a>
-</div>
-
+<?php 
+    include_once __DIR__ . '/../templates/nav.php';
+?>
 
 <div id="app">
 
@@ -31,8 +29,15 @@
                     value="<?php echo htmlspecialchars($name ?? '', ENT_QUOTES, 'UTF-8'); ?>" disabled>
             </div>
             <div class="field">
-                <label for="date">Fecha</label>
-                <input type="date" id="date" min="<?php echo date('Y-m-d', strtotime('+1 day')); ?>">
+                <label for="date">Fecha:</label>
+                <div class="admin-date">
+                    <input type="text" id="date" placeholder="dd/mm/aa"
+                        pattern="[0-9]{2}/[0-9]{2}/[0-9]{2}" maxlength="8" required>
+                    <button type="button" id="open-calendar" aria-label="Abrir calendario" hidden>📅</button>
+                    <input type="date" id="date-calendar" class="admin-date-picker"
+                        aria-label="Seleccionar fecha" tabindex="-1"
+                        min="<?php echo date('Y-m-d', strtotime('+1 day')); ?>">
+                </div>
 
             </div>
             <div class="field">
@@ -61,6 +66,7 @@
 $script = "
 <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
 <script src='/build/js/app.js'></script>
+<script src='/build/js/admin-date.js'></script>
 "
     ?>
 
