@@ -17,9 +17,10 @@ include_once __DIR__ . '/../templates/alerts.php';
                 <div class="actions">
                     <a class="button button-update" href="/servicios/actualizar-servicio?id=<?php echo $service->id; ?>">Actualizar</a>
 
-                    <form action="/servicios/eliminar-servicio" method="POST">
+                    <form action="/servicios/eliminar-servicio" method="POST" class="delete-service"
+                        data-name="<?php echo s($service->name); ?>">
                         <input type="hidden" name="id" value="<?php echo $service->id; ?>">
-                        <button type="submit" class="button button-delete">Eliminar</button>
+                        <button type="submit" class="button button-delete" disabled>Eliminar</button>
 
                     </form>
                 </div>
@@ -31,3 +32,7 @@ include_once __DIR__ . '/../templates/alerts.php';
         </li>
     <?php endif; ?>
 </ul>
+<?php
+$script = '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/build/js/service-delete.js"></script>';
+?>
