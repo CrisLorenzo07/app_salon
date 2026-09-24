@@ -1,3 +1,4 @@
+<?php $pageClass = 'appointment-page'; ?>
 <h1 class="page-title">Crear nueva cita</h1>
 <p class="page-description">Elige tus servicios e ingresa tus datos</p>
 

@@ -1,5 +1,5 @@
-<h1 class="page-title">Login</h1>
-<p class="page-description">Inicia sesión con tus datos</p>
+<h1 class="page-title login-brand">App Salón</h1>
+<h2 class="page-title">Iniciar Sesión</h2>
 
 <?php
 include_once __DIR__ . "/../templates/alerts.php"

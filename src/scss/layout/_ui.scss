@@ -29,20 +29,86 @@
 }
 
 .nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.6rem;
+    margin: 3rem 0;
+    padding: 1.8rem;
+    border: 1px solid rgba(v.$color-blue, 0.25);
+    border-radius: 1.2rem;
+    background-color: rgba(v.$color-blue, 0.05);
 
-    margin: v.$spacing 0;
-
-    @include m.tablet {
+    .nav-user {
         display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        gap: 1.2rem;
         align-items: center;
+        gap: 1.2rem;
+        flex: 1 1 18rem;
+        min-width: 0;
     }
 
-    .button {
-        @include m.button(v.$color-black, v.$color-white);
+    .nav-avatar {
+        display: grid;
+        place-items: center;
+        flex: 0 0 4.8rem;
+        height: 4.8rem;
+        border-radius: 50%;
+        background-color: rgba(v.$color-blue, 0.15);
+        color: v.$color-blue;
+
+        svg {
+            width: 2.6rem;
+            height: 2.6rem;
+        }
+    }
+
+    .nav-greeting {
         margin: 0;
+        min-width: 0;
+    }
+
+    .nav-hello {
+        display: block;
+        color: v.$color-gray;
+        font-size: v.$font-size-body;
+    }
+
+    .nav-name {
+        display: block;
+        font-size: 1.8rem;
+        font-weight: v.$font-weight-bold;
+        overflow-wrap: anywhere;
+    }
+
+    .nav-logout {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.8rem;
+        min-height: v.$control-height;
+        padding: 1rem 1.6rem;
+        border: 1px solid v.$color-blue;
+        border-radius: 0.8rem;
+        color: v.$color-white;
+        font-size: v.$font-size-body;
+        font-weight: v.$font-weight-regular;
+        transition: background-color 150ms ease;
+
+        svg {
+            width: 2rem;
+            height: 2rem;
+            flex-shrink: 0;
+        }
+
+        &:hover {
+            background-color: rgba(v.$color-blue, 0.2);
+        }
+
+        &:focus-visible {
+            outline: 2px solid v.$color-blue;
+            outline-offset: 3px;
+        }
     }
 }
 

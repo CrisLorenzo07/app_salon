@@ -42,3 +42,13 @@ p {
 h4 {
     font-size: 2rem;
 }
+
+
+.login-brand {
+    font-family: 'Tangerine', cursive;
+    font-size: clamp(7rem, 10vw, 12rem);
+    font-weight: 700;
+    line-height: 1.15;
+    text-align: center;
+    margin: 3rem 0 2rem;
+}
