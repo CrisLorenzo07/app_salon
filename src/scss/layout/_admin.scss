@@ -40,39 +40,11 @@
 
 #admin-appointment {
     .button-delete {
-        background-color: v.$color-red;
         margin-bottom: 0;
-
-        &:disabled {
-            opacity: 0.6;
-            cursor: wait;
-        }
     }
 
     .delete-error:empty {
         display: none;
-    }
-
-    .admin-appointment-card {
-        margin: 3rem 0;
-        padding: 2rem;
-        border: 1px solid rgba(v.$color-gray, 0.25);
-        border-radius: 1rem;
-        overflow-wrap: anywhere;
-
-        h3 {
-            margin-top: 0;
-        }
-
-        h4 {
-            margin: 0 0 1.5rem;
-            font-size: 2rem;
-            text-align: left;
-        }
-
-        p {
-            margin: 0 0 1rem;
-        }
     }
 
     .appointment-client {
@@ -99,5 +71,48 @@
     .appointment-label {
         color: v.$color-blue;
         font-weight: v.$font-weight-bold;
+    }
+
+}
+
+#admin-appointment .admin-appointment-card,
+.services .service {
+    margin: 3rem 0;
+    padding: 2rem;
+    border: 1px solid rgba(v.$color-gray, 0.25);
+    border-radius: 1rem;
+    overflow-wrap: anywhere;
+
+    h3 {
+        margin-top: 0;
+    }
+
+    h4 {
+        margin: 0 0 1.5rem;
+        font-size: 2rem;
+        text-align: left;
+    }
+
+    p {
+        margin: 0 0 1rem;
+    }
+}
+
+.services {
+    .service-label {
+        color: v.$color-blue;
+        font-weight: v.$font-weight-bold;
+    }
+
+    list-style: none;
+    padding: 0;
+
+    .actions {
+        margin: 0;
+    }
+
+    .button-update,
+    .button-delete {
+        margin: 0;
     }
 }

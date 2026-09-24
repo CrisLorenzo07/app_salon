@@ -9,3 +9,12 @@
     font-family: v.$font-family;
     font-size: v.$font-size-body;
 }
+
+.button-delete {
+    @include m.button(v.$color-red, v.$color-white);
+
+    &:disabled {
+        opacity: 0.6;
+        cursor: wait;
+    }
+}

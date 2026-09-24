@@ -11,25 +11,31 @@ class ServiceController
     {
 
         isAdmin();
+        $services = Service::all();
         $router->render('services/index', [
             'name' => $_SESSION['name'] ?? '',
+            'services' => $services,
             'alerts' => []
         ]);
     }
 
-
-
-
-
     public static function create(Router $router)
     {
         isAdmin();
-
         $service = new Service;
         $alert = [];
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $alert = $service->validate($_POST);
+
+            if (empty($alert)) {
+                $result = $service->save();
+
+                if (!empty($result['result'])) {
+                    header('Location: /servicios');
+                    return;
+                }
+            }
         }
 
         $router->render('services/service-create', [
@@ -40,24 +46,31 @@ class ServiceController
         ]);
     }
 
-
-
-
-
     public static function update(Router $router)
     {
         isAdmin();
+        if (!is_numeric($_GET['id']))
+            return;
+        $service = Service::find($_GET['id']);
+        $alert = [];
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $service->sync($_POST);
+            $alert = $service->validate();
+
+            if (empty($alert)) {
+                $service->save();
+                header('Location: /servicios');
+                return;
+            }
         }
 
         $router->render('services/service-update', [
-            'name' => $_SESSION['name'] ?? ''
+            'name' => $_SESSION['name'] ?? '',
+            'service' => $service,
+            'alerts' => $alert
         ]);
     }
-
-
-
-
 
     public static function delete()
     {
