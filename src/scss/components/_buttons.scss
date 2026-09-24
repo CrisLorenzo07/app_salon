@@ -4,3 +4,8 @@
 .button {
     @include m.button(v.$color-blue, v.$color-white);
 }
+
+.swal2-popup {
+    font-family: v.$font-family;
+    font-size: v.$font-size-body;
+}

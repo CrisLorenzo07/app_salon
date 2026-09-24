@@ -17,21 +17,6 @@
         }
     }
 
-    .search {
-        label,
-        .admin-date input[type='text'],
-        .admin-date button {
-            font-family: v.$font-family;
-            font-size: 2rem;
-        }
-
-        .admin-date input[type='text'] {
-            width: 100%;
-            min-height: 5rem;
-            font-weight: v.$font-weight-regular;
-        }
-    }
-
     @include m.tablet {
         .app-container {
             height: 100vh;

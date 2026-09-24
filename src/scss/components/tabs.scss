@@ -11,7 +11,11 @@
         background-color: v.$color-blue;
         border: none;
         color: v.$color-white;
-        padding: 1rem;
+        padding: 1.2rem;
+        font-family: v.$font-family;
+        font-size: v.$font-size-body;
+        line-height: 1.5;
+        min-height: v.$control-height;
         display: block;
         width: 100%;
         margin-bottom: 1rem;

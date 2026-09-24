@@ -8,6 +8,10 @@ html {
 }
 
 body {
+    font-family: v.$font-family;
+    font-size: v.$font-size-body;
+    font-weight: v.$font-weight-regular;
+    line-height: 1.5;
     min-height: 100%;
 
     @include m.tablet {

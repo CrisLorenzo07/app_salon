@@ -23,6 +23,9 @@
         border: none;
         border-radius: 1rem;
         padding: 1rem;
+        min-width: v.$control-height;
+        min-height: v.$control-height;
+        font: inherit;
         cursor: pointer;
     }
 
@@ -32,6 +35,7 @@
         bottom: 0;
         width: 1px;
         height: 1px;
+        min-height: 0;
         padding: 0;
         opacity: 0;
         pointer-events: none;
@@ -49,16 +53,37 @@
 .field {
     display: flex;
     margin-bottom: 2rem;
-    align-items: center;
+    align-items: stretch;
+    flex-direction: column;
+    gap: 0.8rem;
+
+    @include m.tablet {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    label,
+    input {
+        font-family: v.$font-family;
+        font-size: v.$font-size-body;
+        font-weight: v.$font-weight-regular;
+    }
 
     label {
-        flex: 0 0 10rem;
+        @include m.tablet {
+            flex: 0 0 10rem;
+        }
+
     }
 
     input {
         flex: 1;
+        min-width: 0;
+        width: 100%;
+        min-height: v.$control-height;
+        line-height: 1.5;
         border: none;
-        padding: calc(v.$spacing / 4);
+        padding: 1.2rem;
         border-radius: 1rem;
         -webkit-border-radius: 1rem;
         -moz-border-radius: 1rem;
@@ -72,4 +97,8 @@
         }
 
     }
+}
+.form :is(input, select, textarea, button):focus-visible {
+    outline: 2px solid v.$color-blue;
+    outline-offset: 3px;
 }

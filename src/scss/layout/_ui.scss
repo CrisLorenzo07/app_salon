@@ -21,12 +21,10 @@
 
     .app {
         width: 95%;
+        min-width: 0;
         margin: 0 auto;
         padding: 3rem 0;
 
-        @include m.tablet {
-            overflow: scroll;
-        }
     }
 }
 
@@ -37,11 +35,29 @@
     @include m.tablet {
         display: flex;
         justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 1.2rem;
         align-items: center;
     }
 
     .button {
         @include m.button(v.$color-black, v.$color-white);
         margin: 0;
+    }
+}
+
+.services-nav {
+    margin-bottom: v.$spacing;
+
+    @include m.tablet {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 1.2rem;
+
+    }
+
+    .button {
+        margin: 0 0 1rem 0;
     }
 }
