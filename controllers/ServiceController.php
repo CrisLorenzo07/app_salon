@@ -75,8 +75,19 @@ class ServiceController
     public static function delete()
     {
         isAdmin();
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            return;
         }
 
+        $id = $_POST['id'] ?? '';
+        if (!is_string($id) || !ctype_digit($id) || (int) $id < 1) {
+            return;
+        }
+
+        $service = Service::find((int) $id);
+        if ($service && $service->delete()) {
+            header('Location: /servicios');
+            return;
+        }
     }
 }
