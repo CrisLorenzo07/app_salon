@@ -16,7 +16,7 @@
         padding: 3rem;
         border-radius: 1rem;
         transition-property: transform;
-        transition-duration: 300ms;
+        transition-duration: 180ms;
         text-align: center;
 
         @include m.tablet {
@@ -31,12 +31,18 @@
             }
         }
 
-        &:hover {
-            transform: scale(1.1);
-            -webkit-transform: scale(1.1);
-            -moz-transform: scale(1.1);
-            -ms-transform: scale(1.1);
-            -o-transform: scale(1.1);
+        @media (hover: hover) and (pointer: fine) {
+            &:hover {
+                transform: scale(1.02);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            transition: none;
+
+            &:hover {
+                transform: none;
+            }
         }
 
         p {

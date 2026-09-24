@@ -1,3 +1,4 @@
+<?php $useTangerine = true; ?>
 <h1 class="page-title login-brand">App Salón</h1>
 <h2 class="page-title">Iniciar Sesión</h2>
 

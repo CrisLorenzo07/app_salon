@@ -109,6 +109,9 @@ async function fetchServices() {
 }
 
 function renderServices(services) {
+  const container = document.querySelector("#services");
+  if (!container) return;
+  const fragment = document.createDocumentFragment();
   services.forEach((service) => {
     const { id, name, price } = service;
 
@@ -130,8 +133,9 @@ function renderServices(services) {
     serviceElement.appendChild(serviceName);
     serviceElement.appendChild(servicePrice);
 
-    document.querySelector("#services").appendChild(serviceElement);
+    fragment.appendChild(serviceElement);
   });
+  container.replaceChildren(fragment);
 }
 
 function selectService(service) {

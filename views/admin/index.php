@@ -24,7 +24,7 @@ include_once __DIR__ . '/../templates/alerts.php';
         <button type="submit" class="button">Buscar citas</button>
     </form>
 </div>
-<?php $script = '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script><script src="/build/js/admin-date.js"></script><script src="/build/js/admin-appointments.js"></script>'; ?>
+<?php $script = '<script defer src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script><script defer src="/build/js/admin-date.js"></script><script defer src="/build/js/admin-appointments.js"></script>'; ?>
 
 <div id="admin-appointment">
     <?php if (empty($appointments)): ?>
