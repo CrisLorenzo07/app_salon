@@ -54,9 +54,11 @@ class LoginController
     public static function create(Router $router)
     {
         $alerts = [];
-        $user = new User($_POST);
+        $user = new User();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $user->sync($_POST);
+            foreach (['name', 'last_name', 'phone', 'email', 'password'] as $field) {
+                $user->$field = is_string($_POST[$field] ?? null) ? $_POST[$field] : '';
+            }
             $alerts = $user->validateNewAccount();
 
             if (empty($alerts)) {
