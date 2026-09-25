@@ -1,0 +1,11 @@
+.git
+node_modules
+vendor
+public/build
+.pnpm-store
+.env
+.env.*
+**/.env
+**/.env.*
+!**/.env.example
+*.log

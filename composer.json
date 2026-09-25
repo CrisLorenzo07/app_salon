@@ -18,6 +18,10 @@
     }
   ],
   "require": {
+    "php": "~8.3.0",
+    "ext-mysqli": "*",
+    "ext-mbstring": "*",
+    "ext-openssl": "*",
     "phpmailer/phpmailer": "^7.1",
     "vlucas/phpdotenv": "^5.7"
   }

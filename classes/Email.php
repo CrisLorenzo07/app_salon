@@ -17,19 +17,32 @@ class Email
         $this->token = $token;
     }
 
-    public function sendConfirmation(): bool
+    private function createMailer(): PHPMailer
     {
         $mail = new PHPMailer(true);
 
         $mail->isSMTP();
         $mail->Host = $_ENV['EMAIL_HOST'];
         $mail->Port = (int) $_ENV['EMAIL_PORT'];
-        $mail->SMTPAuth = false;
-        $mail->SMTPAutoTLS = false;
+        $mail->SMTPAuth = filter_var($_ENV['EMAIL_AUTH'] ?? 'false', FILTER_VALIDATE_BOOLEAN);
+        $mail->Username = $_ENV['EMAIL_USER'] ?? '';
+        $mail->Password = $_ENV['EMAIL_PASS'] ?? '';
+        $mail->SMTPSecure = $_ENV['EMAIL_ENCRYPTION'] ?? '';
+        if (!in_array($mail->SMTPSecure, ['', 'tls', 'ssl'], true)) {
+            throw new \InvalidArgumentException('EMAIL_ENCRYPTION debe ser tls, ssl o vacío.');
+        }
+        $mail->SMTPAutoTLS = $mail->SMTPSecure !== '';
         $mail->CharSet = 'UTF-8';
-        $mail->setFrom('cuentas@appsalon.com', 'App Salón');
+        $mail->setFrom($_ENV['EMAIL_FROM'] ?? 'cuentas@appsalon.com', $_ENV['EMAIL_FROM_NAME'] ?? 'App Salón');
         $mail->addAddress($this->email, $this->name);
         $mail->isHTML(true);
+
+        return $mail;
+    }
+
+    public function sendConfirmation(): bool
+    {
+        $mail = $this->createMailer();
         $mail->Subject = 'Confirma tu cuenta';
 
         $name = htmlspecialchars(
@@ -53,17 +66,7 @@ class Email
 
     public function sendInstructions()
     {
-        $mail = new PHPMailer(true);
-
-        $mail->isSMTP();
-        $mail->Host = $_ENV['EMAIL_HOST'];
-        $mail->Port = (int) $_ENV['EMAIL_PORT'];
-        $mail->SMTPAuth = false;
-        $mail->SMTPAutoTLS = false;
-        $mail->CharSet = 'UTF-8';
-        $mail->setFrom('cuentas@appsalon.com', 'App Salón');
-        $mail->addAddress($this->email, $this->name);
-        $mail->isHTML(true);
+        $mail = $this->createMailer();
         $mail->Subject = 'Restablecer tu contraseña';
 
         $name = htmlspecialchars(

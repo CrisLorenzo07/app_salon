@@ -1,0 +1,24 @@
+providers = ["php"]
+
+[variables]
+NIXPACKS_PHP_ROOT_DIR = "/app/public"
+NIXPACKS_PHP_FALLBACK_PATH = "/index.php"
+NIXPACKS_NODE_VERSION = "22"
+PORT = "80"
+
+[phases.setup]
+# Node 22 compatible con pnpm 11; PHP 8.3 y sus extensiones.
+nixpkgsArchive = "b6018f87da91d19d0ab4cf979885689b469cdd41"
+nixPkgs = ["(php83.withExtensions (pe: pe.enabled ++ [pe.all.mysqli pe.all.mbstring pe.all.openssl]))", "php83Packages.composer", "nginx", "libmysqlclient", "nodejs_22"]
+nixOverlays = []
+
+[phases.install]
+cmds = [
+  "mkdir -p /var/log/nginx /var/cache/nginx",
+  "composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader",
+  "npm install --global --prefix /opt/pnpm pnpm@11.2.2",
+  "/opt/pnpm/bin/pnpm install --frozen-lockfile --prod=false"
+]
+
+[phases.build]
+cmds = ["/opt/pnpm/bin/pnpm run build"]
