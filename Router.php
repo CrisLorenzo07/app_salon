@@ -19,20 +19,27 @@ class Router
 
     public function checkRoutes()
     {
-        session_start();
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
 
         $currentUrl = strtok($_SERVER['REQUEST_URI'], '?') ?? '/';
         $method = $_SERVER['REQUEST_METHOD'];
 
         if ($method === 'GET') {
             $fn = $this->getRoutes[$currentUrl] ?? null;
-        } else {
+        } elseif ($method === 'POST') {
             $fn = $this->postRoutes[$currentUrl] ?? null;
+        } else {
+            http_response_code(405);
+            header('Allow: GET, POST');
+            return;
         }
 
         if ($fn) {
             call_user_func($fn, $this);
         } else {
+            http_response_code(404);
             echo "Página No Encontrada o Ruta no válida";
         }
     }

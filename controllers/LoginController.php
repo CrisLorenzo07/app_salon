@@ -210,9 +210,10 @@ class LoginController
 
     public static function logout(Router $router)
     {
-        session_start();
         $_SESSION = [];
+        session_destroy();
         header('Location: /');
+        exit;
     }
 }
 

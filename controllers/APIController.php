@@ -20,10 +20,16 @@ class APIController
     {
         header('Content-Type: application/json; charset=utf-8');
 
+        if (empty($_SESSION['login']) || empty($_SESSION['id'])) {
+            http_response_code(401);
+            echo json_encode(['result' => false, 'id' => 0]);
+            return;
+        }
+
         $appointment = new Appointment([
             'date' => $_POST['date'] ?? '',
             'time' => $_POST['time'] ?? '',
-            'user_id' => (int) ($_POST['user_id'] ?? $_SESSION['id'] ?? 0),
+            'user_id' => (int) $_SESSION['id'],
         ]);
 
         $transactionStarted = false;

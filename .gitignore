@@ -26,3 +26,6 @@ Desktop.ini
 *~
 
 # Mantener pnpm-lock.yaml y composer.lock versionados
+
+# Pruebas locales
+/tests/

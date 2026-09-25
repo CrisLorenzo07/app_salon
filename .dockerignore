@@ -9,3 +9,4 @@ public/build
 **/.env.*
 !**/.env.example
 *.log
+tests

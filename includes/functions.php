@@ -16,8 +16,9 @@ function s($html): string
 
 function isAuth(): void
 {
-    if (!isset($_SESSION['login'])) {
+    if (empty($_SESSION['login'])) {
         header('Location: /');
+        exit;
     }
 }
 
