@@ -2,11 +2,11 @@
 
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-$host = '127.0.0.1';
-$username = 'app_salon_user';
-$password = 'app_salon_passwd';
-$databaseName = 'app_salon_db';
-$port = 3306;
+$host = ($_ENV['DB_HOST']);
+$username = ($_ENV['DB_USER']);
+$password = ($_ENV['DB_PASS']);
+$databaseName = ($_ENV['DB_NAME']);
+$port = (int) $_ENV['DB_PORT'];
 
 try {
     $db = new mysqli(

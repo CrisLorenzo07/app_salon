@@ -22,8 +22,8 @@ class Email
         $mail = new PHPMailer(true);
 
         $mail->isSMTP();
-        $mail->Host = '127.0.0.1';
-        $mail->Port = 1025;
+        $mail->Host = $_ENV['EMAIL_HOST'];
+        $mail->Port = (int) $_ENV['EMAIL_PORT'];
         $mail->SMTPAuth = false;
         $mail->SMTPAutoTLS = false;
         $mail->CharSet = 'UTF-8';
@@ -38,7 +38,7 @@ class Email
             'UTF-8'
         );
 
-        $url = 'http://localhost:8000/confirmar-cuenta?token='
+        $url = $_ENV['APP_URL'] . '/confirmar-cuenta?token='
             . rawurlencode($this->token);
 
         $content = '<html><body>';
@@ -56,8 +56,8 @@ class Email
         $mail = new PHPMailer(true);
 
         $mail->isSMTP();
-        $mail->Host = '127.0.0.1';
-        $mail->Port = 1025;
+        $mail->Host = $_ENV['EMAIL_HOST'];
+        $mail->Port = (int) $_ENV['EMAIL_PORT'];
         $mail->SMTPAuth = false;
         $mail->SMTPAutoTLS = false;
         $mail->CharSet = 'UTF-8';
@@ -72,7 +72,7 @@ class Email
             'UTF-8'
         );
 
-        $url = 'http://localhost:8000/recuperar?token='
+        $url = $_ENV['APP_URL'] . '/recuperar?token='
             . rawurlencode($this->token);
 
         $content = '<html><body>';
