@@ -102,3 +102,44 @@
     outline: 2px solid v.$color-blue;
     outline-offset: 3px;
 }
+
+.password-field {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+
+    input {
+        padding-right: 6rem;
+
+        &::-ms-reveal {
+            display: none;
+        }
+    }
+
+    .password-toggle {
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 100%;
+        min-width: v.$control-height;
+        min-height: v.$control-height;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        border-radius: 1rem;
+        background: transparent;
+        color: v.$color-black;
+        cursor: pointer;
+
+        svg {
+            width: 2.4rem;
+            height: 2.4rem;
+        }
+
+        &[hidden],
+        svg[hidden] {
+            display: none;
+        }
+    }
+}
