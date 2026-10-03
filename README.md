@@ -1,51 +1,46 @@
 <div align="center">
-  <img src="public/build/img/image-hero.png" alt="App Salón Hero" width="300">
+  <img src="src/img/image-hero.png" alt="App Salón Hero" width="300">
   
-# App Salón
-> Complete Salon Management Solution
+  # App Salón
+  > Solución Completa de Gestión para Salones
 
-A modern, full-featured salon management application built with PHP and JavaScript.
+  Una aplicación moderna y completa de gestión de salones construida con PHP y JavaScript.
 
-[View Demo](https://appsalon.criswebserver.site) • [View Source](https://github.com/CrisLorenzo07/app_salon)
-
+  [Ver Demo](https://appsalon.criswebserver.site) • [Ver Código](https://github.com/CrisLorenzo07/app_salon)
 </div>
 
-## Overview
+## Descripción
 
-App Salón is a comprehensive salon management system designed to streamline the daily operations of beauty salons, spas, and barbershops. The application provides an all-in-one solution for managing services, appointments, client bookings, and administrative tasks through an intuitive web interface.
+App Salón es un sistema integral de gestión para salones de belleza, spas y barberías diseñado para optimizar las operaciones diarias. La aplicación ofrece una solución todo-en-uno para gestionar servicios, citas, reservas de clientes y tareas administrativas a través de una interfaz web intuitiva.
 
-Whether you're a small independent stylist or managing a multi-stylist salon, App Salón offers the tools to organize your schedule, showcase your services, and provide a seamless booking experience for your clients.
+Tanto si eres un estilista independiente como si gestionas un salón con varios profesionales, App Salón te proporciona las herramientas para organizar tu agenda, mostrar tus servicios y ofrecer una experiencia de reserva fluida a tus clientes.
 
-## Key Features
+## Características Principales
 
-### 📅 Appointment Management
+### 📅 Gestión de Citas
+- Flujo de reserva en varios pasos con selección de servicios
+- Disponibilidad de fecha y hora en tiempo real
+- Confirmaciones modales con SweetAlert
+- Programación de citas basada en calendario
 
-- Multi-step booking flow with service selection
-- Real-time date and time availability
-- Confirmation modals with SweetAlert
-- Calendar-based appointment scheduling
+### 💇‍♀️ Catálogo de Servicios
+- Crear, actualizar y gestionar listados de servicios
+- Precios y descripciones personalizables
+- Exploración organizada de servicios para clientes
 
-### 💇‍♀️ Service Catalog
+### 👥 Experiencia del Cliente
+- Autenticación segura y gestión de cuentas
+- Gestión de perfil con información de contacto
+- Toggle de visibilidad de contraseña para mejor UX
+- Confirmación de cuenta por email
 
-- Create, update, and manage service listings
-- Customizable pricing and service descriptions
-- Organized service browsing for clients
+### ⚙️ Panel de Administración
+- Vista completa de citas por fecha
+- Detalles del cliente e historial de servicios
+- Cancelación de citas con confirmación
+- Gestión de inventario de servicios
 
-### 👥 Client Experience
-
-- Secure user authentication and account management
-- Profile management with contact information
-- Password visibility toggle for better UX
-- Account confirmation via email
-
-### ⚙️ Administration Panel
-
-- Complete appointment overview by date
-- Client details and service history
-- Appointment cancellation with confirmation
-- Service inventory management
-
-## Technology Showcase
+## Tecnologías
 
 <div align="center">
   <img src="https://img.shields.io/badge/PHP-8.3-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP">
@@ -56,24 +51,12 @@ Whether you're a small independent stylist or managing a multi-stylist salon, Ap
   <img src="https://img.shields.io/badge/SweetAlert2-FF69B4?style=for-the-badge&logo=SweetAlert2&logoColor=white" alt="SweetAlert2">
 </div>
 
-## Interface Preview
+## Vista Previa de la Interfaz
 
 <div align="center">
-  <img src="public/build/img/image-hero.png" alt="App Salón Interface" width="600">
+  <img src="src/img/image-hero.png" alt="Interfaz App Salón" width="600">
 </div>
-
-## Getting Started
-
-This project is available as open source on GitHub. To run locally:
-
-1. Clone the repository
-2. Install PHP dependencies with Composer
-3. Install JavaScript dependencies with PNPM
-4. Configure environment variables
-5. Run the development server
-
-For detailed setup instructions, please refer to the project documentation in the repository.
 
 ---
 
-_Built with ❤️ by CL - Desarrollo Web_
+*Creado con ❤️ por CL Desarrollo Web*
