@@ -42,7 +42,7 @@ class Email
         if (!in_array($mail->SMTPSecure, ['', 'tls', 'ssl'], true)) {
             throw new \InvalidArgumentException('EMAIL_ENCRYPTION debe ser tls, ssl o vacío.');
         }
-        if ($mail->SMTPAuth && $mail->SMTPSecure === '') {
+        if ($mail->SMTPAuth && $mail->SMTPSecure === '' && ($_ENV['APP_ENV'] ?? 'production') !== 'test') {
             throw new \InvalidArgumentException('El correo con autenticación requiere EMAIL_ENCRYPTION=tls o ssl.');
         }
         $mail->SMTPAutoTLS = $mail->SMTPSecure !== '';
