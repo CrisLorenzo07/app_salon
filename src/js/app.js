@@ -299,6 +299,7 @@ async function reserveAppointment() {
   data.append("date", date);
   data.append("time", time);
   data.append("services", servicesId.join(","));
+  data.append("csrf_token", document.querySelector("#app").dataset.csrf);
 
   const url = "/api/citas";
   const response = await fetch(url, {

@@ -1,3 +1,8 @@
 allowBuilds:
   '@parcel/watcher': true
   sharp: true
+
+# Versiones corregidas de dependencias transitivas de las herramientas de desarrollo.
+overrides:
+  'brace-expansion@1': '1.1.21'
+  'brace-expansion@5': '5.0.12'

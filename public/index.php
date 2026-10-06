@@ -3,17 +3,23 @@
 require_once __DIR__ . '/../includes/app.php';
 
 use Controllers\APIController;
-use Controllers\AppointmentController;
-use Controllers\LoginController;
 use Controllers\AdminController;
+use Controllers\AppointmentController;
+use Controllers\InstallationController;
+use Controllers\LoginController;
 use Controllers\ServiceController;
 use MVC\Router;
 
 $router = new Router();
 
+$router->get('/configuracion-inicial', [InstallationController::class, 'create']);
+$router->post('/configuracion-inicial', [InstallationController::class, 'create']);
+
 $router->get('/', [LoginController::class, 'login']);
 $router->post('/', [LoginController::class, 'login']);
-$router->get('/cerrar-sesion', [LoginController::class, 'logout']);
+$router->get('/iniciar-sesion', [LoginController::class, 'login']);
+$router->post('/iniciar-sesion', [LoginController::class, 'login']);
+$router->post('/cerrar-sesion', [LoginController::class, 'logout']);
 $router->get('/olvide', [LoginController::class, 'forgotPassword']);
 $router->post('/olvide', [LoginController::class, 'forgotPassword']);
 $router->get('/crear-cuenta', [LoginController::class, 'create']);
@@ -37,8 +43,5 @@ $router->post('/servicios/crear-servicio', [ServiceController::class, 'create'])
 $router->get('/servicios/actualizar-servicio', [ServiceController::class, 'update']);
 $router->post('/servicios/actualizar-servicio', [ServiceController::class, 'update']);
 $router->post('/servicios/eliminar-servicio', [ServiceController::class, 'delete']);
-
-
-
 
 $router->checkRoutes();

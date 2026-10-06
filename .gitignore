@@ -29,3 +29,16 @@ Desktop.ini
 
 # Pruebas locales
 /tests/
+
+# Artefactos locales: conservar las migraciones de estructura.
+*.log
+/database/backups/
+/database/dumps/
+*.sql
+!/database/migrations/*.sql
+*.sql.gz
+*.sql.zip
+*.dump
+
+/docs/
+/database/migrations/*.sql

@@ -10,3 +10,10 @@ public/build
 !**/.env.example
 *.log
 tests
+database/backups
+database/dumps
+**/*.sql
+!database/migrations/*.sql
+*.sql.gz
+*.sql.zip
+*.dump

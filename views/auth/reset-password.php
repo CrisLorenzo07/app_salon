@@ -8,6 +8,7 @@ include_once __DIR__ . "/../templates/alerts.php"
 <?php if (isset($error) && $error)
     return null; ?>
 <form class="form" method="POST">
+    <?php include __DIR__ . '/../templates/csrf.php'; ?>
 
     <div class="field">
         <label for="password">Nueva Contraseña</label>

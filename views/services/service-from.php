@@ -1,3 +1,4 @@
+<?php include __DIR__ . '/../templates/csrf.php'; ?>
 <div class="field">
     <label for="name">Nombre: </label>
     <input type="text" id="name" placeholder="Nombre del Servicio" name="name"

@@ -1,17 +1,8 @@
 <?php
 
-function debugDump($variable): string
-{
-    echo "<pre>";
-    var_dump($variable);
-    echo "</pre>";
-    exit;
-}
-
 function s($html): string
 {
-    $s = htmlspecialchars($html);
-    return $s;
+    return htmlspecialchars($html, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 }
 
 function isAuth(): void

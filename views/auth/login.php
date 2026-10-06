@@ -6,7 +6,8 @@
 include_once __DIR__ . "/../templates/alerts.php"
     ?>
 
-<form action="/" class="form" method="post">
+<form action="/iniciar-sesion" class="form" method="post">
+    <?php include __DIR__ . '/../templates/csrf.php'; ?>
     <div class="field">
         <label for="email">Email</label>
         <input type="email" id="email" placeholder="Ingresa tu email" name="email">

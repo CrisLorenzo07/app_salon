@@ -19,6 +19,7 @@ include_once __DIR__ . '/../templates/alerts.php';
 
                     <form action="/servicios/eliminar-servicio" method="POST" class="delete-service"
                         data-name="<?php echo s($service->name); ?>">
+                        <?php include __DIR__ . '/../templates/csrf.php'; ?>
                         <input type="hidden" name="id" value="<?php echo $service->id; ?>">
                         <button type="submit" class="button button-delete" disabled>Eliminar</button>
 

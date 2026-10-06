@@ -11,12 +11,15 @@
             <span class="nav-name"><?php echo s($name ?? ''); ?></span>
         </p>
     </div>
-    <a class="nav-logout" href="/cerrar-sesion">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
-            <path d="M10 4H5v16h5M10 12h11m-4-4 4 4-4 4" />
-        </svg>
-        Cerrar sesión
-    </a>
+    <form action="/cerrar-sesion" method="POST">
+        <?php include __DIR__ . '/csrf.php'; ?>
+        <button class="nav-logout" type="submit">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+                <path d="M10 4H5v16h5M10 12h11m-4-4 4 4-4 4" />
+            </svg>
+            Cerrar sesión
+        </button>
+    </form>
 </div>
 
 <?php if (($_SESSION['admin'] ?? 0) === 1): ?>

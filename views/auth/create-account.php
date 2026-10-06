@@ -6,6 +6,7 @@ include_once __DIR__ . "/../templates/alerts.php"
     ?>
 
 <form action="/crear-cuenta" class="form" method="POST">
+    <?php include __DIR__ . '/../templates/csrf.php'; ?>
     <div class="field">
         <label for="name">Nombre</label>
         <input type="text" id="name" name="name" placeholder="Ingresa tu nombre"

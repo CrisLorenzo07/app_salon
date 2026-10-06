@@ -82,6 +82,9 @@
     }
 
     .nav-logout {
+        background-color: transparent;
+        cursor: pointer;
+        font-family: inherit;
         display: inline-flex;
         align-items: center;
         justify-content: center;

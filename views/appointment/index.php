@@ -2,11 +2,11 @@
 <h1 class="page-title">Crear nueva cita</h1>
 <p class="page-description">Elige tus servicios e ingresa tus datos</p>
 
-<?php 
+<?php
     include_once __DIR__ . '/../templates/nav.php';
 ?>
 
-<div id="app">
+<div id="app" data-csrf="<?php echo s($_SESSION['csrf_token']); ?>">
 
     <nav class="tabs">
         <button type="button" data-step="1">Servicios</button>

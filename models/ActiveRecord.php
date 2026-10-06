@@ -90,16 +90,6 @@ class ActiveRecord
         return $attributes;
     }
 
-    public function sanitizeAttributes()
-    {
-        $attributes = $this->attributes();
-        $sanitized = [];
-        foreach ($attributes as $key => $value) {
-            $sanitized[$key] = self::$db->escape_string($value);
-        }
-        return $sanitized;
-    }
-
     public function sync($args = [])
     {
         foreach ($args as $key => $value) {
@@ -129,13 +119,16 @@ class ActiveRecord
 
     public static function find($id)
     {
-        $query = "SELECT * FROM " . static::$table . " WHERE id = {$id}";
-        $result = self::querySQL($query);
-        return array_shift($result);
+        $id = filter_var($id, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
+        return $id === false ? null : static::where('id', $id);
     }
 
     public static function get($limit)
     {
+        $limit = filter_var($limit, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
+        if ($limit === false) {
+            throw new \InvalidArgumentException('Límite no válido');
+        }
         $query = "SELECT * FROM " . static::$table . " LIMIT {$limit}";
         $result = self::querySQL($query);
         return array_shift($result);
@@ -163,43 +156,42 @@ class ActiveRecord
 
     public function create()
     {
-        $attributes = $this->sanitizeAttributes();
-
-        $query = " INSERT INTO " . static::$table . " ( ";
-        $query .= join(', ', array_keys($attributes));
-        $query .= " ) VALUES ('";
-        $query .= join("', '", array_values($attributes));
-        $query .= "') ";
-
-        $result = self::$db->query($query);
-        return [
-            'result' => $result,
-            'id' => self::$db->insert_id
-        ];
+        $attributes = $this->attributes();
+        $columns = implode(', ', array_map(fn ($column) => "`{$column}`", array_keys($attributes)));
+        $placeholders = implode(', ', array_fill(0, count($attributes), '?'));
+        $stmt = self::$db->prepare('INSERT INTO `' . static::$table . '` (' . $columns . ') VALUES (' . $placeholders . ')');
+        try {
+            $values = array_values($attributes);
+            $stmt->bind_param(str_repeat('s', count($values)), ...$values);
+            $result = $stmt->execute();
+            return ['result' => $result, 'id' => self::$db->insert_id];
+        } finally {
+            $stmt->close();
+        }
     }
 
     public function update()
     {
-        $attributes = $this->sanitizeAttributes();
-
-        $values = [];
-        foreach ($attributes as $key => $value) {
-            $values[] = "{$key}='{$value}'";
+        $attributes = $this->attributes();
+        $assignments = implode(', ', array_map(fn ($column) => "`{$column}` = ?", array_keys($attributes)));
+        $stmt = self::$db->prepare('UPDATE `' . static::$table . '` SET ' . $assignments . ' WHERE id = ? LIMIT 1');
+        try {
+            $values = [...array_values($attributes), $this->id];
+            $stmt->bind_param(str_repeat('s', count($values)), ...$values);
+            return $stmt->execute();
+        } finally {
+            $stmt->close();
         }
-
-        $query = "UPDATE " . static::$table . " SET ";
-        $query .= join(', ', $values);
-        $query .= " WHERE id = '" . self::$db->escape_string($this->id) . "' ";
-        $query .= " LIMIT 1 ";
-
-        $result = self::$db->query($query);
-        return $result;
     }
 
     public function delete()
     {
-        $query = "DELETE FROM " . static::$table . " WHERE id = " . self::$db->escape_string($this->id) . " LIMIT 1";
-        $result = self::$db->query($query);
-        return $result;
+        $stmt = self::$db->prepare('DELETE FROM `' . static::$table . '` WHERE id = ? LIMIT 1');
+        try {
+            $stmt->bind_param('i', $this->id);
+            return $stmt->execute();
+        } finally {
+            $stmt->close();
+        }
     }
 }

@@ -6,6 +6,7 @@ include_once __DIR__ . "/../templates/alerts.php"
     ?>
 
 <form action="/olvide" class="form" method="POST">
+    <?php include __DIR__ . '/../templates/csrf.php'; ?>
 
     <div class="field">
         <label for="email">Email</label>
