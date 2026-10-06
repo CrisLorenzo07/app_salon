@@ -59,4 +59,4 @@ Tanto si eres un estilista independiente como si gestionas un salón con varios 
 
 ---
 
-*Creado con ❤️ por CL Desarrollo Web*
+*Creado con ❤️ por CL - Desarrollo Web*
